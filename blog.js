@@ -1,4 +1,3 @@
-// blog.js
 class StaticBlog {
     constructor() {
         this.config = {
@@ -28,6 +27,14 @@ class StaticBlog {
 
     async init() {
         try {
+            // 动态加载MathJax
+            if (!window.MathJax) {
+                const script = document.createElement("script");
+                script.src = "https://cdn.bootcdn.net/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js";
+                script.async = true;
+                document.head.appendChild(script);
+            }
+
             await this.loadData();
             this.initRouter();
             this.initNavigation();
@@ -118,74 +125,81 @@ class StaticBlog {
         });
 
         this.dom.articleContent.innerHTML = safeContent;
+
+        // 调用MathJax渲染数学公式
+        if (window.MathJax) {
+            MathJax.typesetPromise().then(() => {
+                console.log("MathJax rendering complete.");
+            }).catch((error) => {
+                console.error("MathJax rendering failed:", error);
+            });
+        } else {
+            console.warn("MathJax is not loaded. Please ensure MathJax is correctly included.");
+        }
+
         this.postProcessContent();
         
         this.dom.postList.style.display = 'none';
         this.dom.postDetail.style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior:            'smooth' });
     }
 
+    postProcessContent() {
+        hljs.highlightAll();
 
-postProcessContent() {
-    hljs.highlightAll();
+        document.querySelectorAll('pre').forEach(preBlock => {
+            // 清除之前可能存在的复制按钮
+            const existingCopyBtn = preBlock.querySelector('.code-copy');
+            if (existingCopyBtn) {
+                existingCopyBtn.remove();
+            }
 
-    document.querySelectorAll('pre').forEach(preBlock => {
-        // 清除之前可能存在的复制按钮
-        const existingCopyBtn = preBlock.querySelector('.code-copy');
-        if (existingCopyBtn) {
-            existingCopyBtn.remove();
-        }
+            // 创建复制按钮
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'code-copy';
+            copyBtn.textContent = '复制';
+            copyBtn.style.position = 'absolute'; // 使用绝对定位
+            copyBtn.style.right = '10px';       // 距离代码框右侧的距离
+            copyBtn.style.top = '10px';         // 距离代码框顶部的距离
+            copyBtn.style.zIndex = '10';
+            copyBtn.style.background = 'rgba(255, 255, 255, 0.9)';
+            copyBtn.style.border = '1px solid #ddd';
+            copyBtn.style.borderRadius = '4px';
+            copyBtn.style.padding = '5px 10px';
+            copyBtn.style.cursor = 'pointer';
+            copyBtn.style.opacity = '0'; // 默认隐藏
+            copyBtn.style.transition = 'opacity 0.3s ease';
 
-        // 创建复制按钮
-        const copyBtn = document.createElement('button');
-        copyBtn.className = 'code-copy';
-        copyBtn.textContent = '复制';
-        copyBtn.style.position = 'absolute'; // 使用绝对定位
-        copyBtn.style.right = '10px';       // 距离代码框右侧的距离
-        copyBtn.style.top = '10px';         // 距离代码框顶部的距离
-        copyBtn.style.zIndex = '10';
-        copyBtn.style.background = 'rgba(255, 255, 255, 0.9)';
-        copyBtn.style.border = '1px solid #ddd';
-        copyBtn.style.borderRadius = '4px';
-        copyBtn.style.padding = '5px 10px';
-        copyBtn.style.cursor = 'pointer';
-        copyBtn.style.opacity = '0'; // 默认隐藏
-        copyBtn.style.transition = 'opacity 0.3s ease';
+            // 绑定点击事件
+            copyBtn.addEventListener('click', () => {
+                const code = preBlock.querySelector('code').innerText;
+                this.copyToClipboard(code);
+            });
 
-        // 绑定点击事件
-        copyBtn.addEventListener('click', () => {
-            const code = preBlock.querySelector('code').innerText;
-            this.copyToClipboard(code);
+            // 将按钮插入到代码框中
+            preBlock.appendChild(copyBtn);
+
+            // 监听代码框的点击事件，显示按钮
+            preBlock.addEventListener('click', (e) => {
+                e.stopPropagation(); // 阻止事件冒泡
+                copyBtn.style.opacity = '1'; // 显示按钮
+            });
+
+            // 监听代码框的滚动事件，动态调整按钮位置
+            preBlock.addEventListener('scroll', () => {
+                const { scrollTop, scrollLeft } = preBlock;
+                copyBtn.style.top = `${10 - scrollTop}px`;
+                copyBtn.style.right = `${10 - scrollLeft}px`;
+            });
         });
 
-        // 将按钮插入到代码框中
-        preBlock.appendChild(copyBtn);
-
-        // 监听代码框的点击事件，显示按钮
-        preBlock.addEventListener('click', (e) => {
-            e.stopPropagation(); // 阻止事件冒泡
-            copyBtn.style.opacity = '1'; // 显示按钮
+        // 监听全局点击事件，隐藏按钮
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.code-copy').forEach(btn => {
+                btn.style.opacity = '0'; // 隐藏所有按钮
+            });
         });
-
-        // 监听代码框的滚动事件，动态调整按钮位置
-        preBlock.addEventListener('scroll', () => {
-            const { scrollTop, scrollLeft } = preBlock;
-            copyBtn.style.top = `${10 - scrollTop}px`;
-            copyBtn.style.right = `${10 - scrollLeft}px`;
-        });
-    });
-
-    // 监听全局点击事件，隐藏按钮
-    document.addEventListener('click', () => {
-        document.querySelectorAll('.code-copy').forEach(btn => {
-            btn.style.opacity = '0'; // 隐藏所有按钮
-        });
-    });
-}
-
-
-
-
+    }
 
     copyToClipboard(text) {
         navigator.clipboard.writeText(text).then(() => {
@@ -266,7 +280,6 @@ postProcessContent() {
         });
     }
 
-    
     initNavigation() {
         const categories = [...new Set(this.state.posts.map(p => p.category))];
         const tags = [...new Set(this.state.posts.flatMap(p => p.tags || []))];
@@ -303,8 +316,7 @@ postProcessContent() {
                 }
             });
         });
-        }
-    
+    }
 
     createNavGroup(title, type, items) {
         if (!items || items.length === 0) return '';
@@ -330,15 +342,6 @@ postProcessContent() {
                 items.style.display = 'block';
             });
         }
-    
-}
-
-    handleResponsive() {
-        if (window.innerWidth <= 768) {
-            document.querySelectorAll('.nav-items').forEach(items => {
-                items.style.display = 'none';
-            });
-        }
     }
 
     showNotFound() {
@@ -347,23 +350,20 @@ postProcessContent() {
                 <h2>文章未找到</h2>
                 <p>请求的内容不存在或已被移除</p>
                 <button onclick="blog.showPostList()">返回列表</button>
-                        </div>
-    `;
+            </div>
+        `;
+    }
+
+    showError(message) {
+        document.body.innerHTML = `
+            <div class="error">
+                <h2>系统错误</h2>
+                <p>${message}</p>
+                <button onclick="location.reload()">重新加载</button>
+            </div>
+        `;
+    }
 }
 
-showError(message) {
-    document.body.innerHTML = `
-        <div class="error">
-            <h2>系统错误</h2>
-            <p>${message}</p>
-            <button onclick="location.reload()">重新加载</button>
-        </div>
-    `;
-}
-}
 const blog = new StaticBlog();
 document.addEventListener('DOMContentLoaded', () => blog.init());
-
-
-
-
