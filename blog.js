@@ -30,7 +30,7 @@ class StaticBlog {
             // 动态加载MathJax
             if (!window.MathJax) {
                 const script = document.createElement("script");
-                script.src = "https://cdn.bootcdn.net/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js";
+                script.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js";
                 script.async = true;
                 document.head.appendChild(script);
             }
