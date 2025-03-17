@@ -335,7 +335,7 @@ class StaticBlog {
 
     handleResponsive() {
         const isMobile = window.innerWidth <= 768;
-        
+/* 禁用 防止电脑端菜单bug 始终显示
         // 桌面端保持菜单可见
         if (!isMobile) {
             document.querySelectorAll('.nav-items').forEach(items => {
@@ -343,7 +343,7 @@ class StaticBlog {
             });
         }
     }
-
+*/
     showNotFound() {
         this.dom.articleContent.innerHTML = `
             <div class="not-found">
