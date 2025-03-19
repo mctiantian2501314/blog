@@ -1,4 +1,4 @@
-name: NodeJS with Grunt
+name: Static Site Builder
 
 on:
   push:
@@ -10,19 +10,38 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
       with:
-        node-version: ${{ matrix.node-version }}
+        php-version: '8.2'
+        extensions: mbstring, fileinfo, ctype
 
-    - name: Build
+    - name: Generate JSON data
+      run: php json.php
+
+    - name: Validate output
       run: |
-        npm install
-        grunt
+        # 检查生成的 JSON 文件
+        if [ ! -f "md_data.json" ]; then
+          echo "Error: JSON file not generated!"
+          exit 1
+        fi
+        
+        # 验证 JSON 格式
+        jq empty md_data.json
+
+    - name: Archive build
+      uses: actions/upload-artifact@v3
+      with:
+        name: static-site
+        path: |
+          *.html
+          *.json
+          blog.css
+          blog.js
+          md/
+          libs/
