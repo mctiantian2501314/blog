@@ -30,7 +30,7 @@ class StaticBlog {
             // 动态加载MathJax
             if (!window.MathJax) {
                 const script = document.createElement("script");
-                script.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js";
+                script.src = "./libs/mathjax/es5/tex-mml-chtml.js";
                 script.async = true;
                 document.head.appendChild(script);
             }
@@ -332,10 +332,10 @@ class StaticBlog {
             </div>
         `;
     }
-
+/*
     handleResponsive() {
         const isMobile = window.innerWidth <= 768;
-/* 禁用 防止电脑端菜单bug 始终显示
+        
         // 桌面端保持菜单可见
         if (!isMobile) {
             document.querySelectorAll('.nav-items').forEach(items => {

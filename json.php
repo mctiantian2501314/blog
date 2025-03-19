@@ -45,12 +45,21 @@ function generate_blog_data() {
     foreach ($iterator as $file) {
         if ($file->isFile() && strtolower($file->getExtension()) === 'md') {
             $path = $file->getPathname();
-            $category = basename($file->getPath());
-            
-            // 分类过滤
-            if (!empty($config['allowed_categories']) && !in_array($category, $config['allowed_categories'])) {
-                continue;
-            }
+   
+        // 新增分类路径计算逻辑
+        $root = realpath($config['md_dir']);
+        $filePath = realpath($file->getPath());
+        
+        if ($filePath !== false && strpos($filePath, $root) === 0) {
+            // 计算相对路径并标准化格式
+            $relativePath = substr($filePath, strlen($root));
+            $relativePath = ltrim($relativePath, DIRECTORY_SEPARATOR);
+            $category = str_replace(DIRECTORY_SEPARATOR, '/', $relativePath);
+        } else {
+            $category = ''; 
+        }
+        
+       
 
             // 内容处理
             $content = $include_content ? file_get_contents($path) : '';
@@ -73,20 +82,19 @@ function generate_blog_data() {
             ];
 
             if ($include_content) {
-                $post['content'] = $content;
+                //$post['content'] = $content;
             }
 
             $data['posts'][] = $post;
         }
     }
-
     // 排序并保存
     usort($data['posts'], fn($a, $b) => strtotime($b['created']) - strtotime($a['created']));
     file_put_contents($config['output_file'], json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     
     echo "生成成功！文章数：".count($data['posts'])."\n";
     echo "输出文件：{$config['output_file']}\n";
-    echo "内容字段：".($include_content ? '已启用' : '已禁用')."\n";
+        echo "内容字段/或者标签：".($include_content ? '已启用' : '已禁用')."\n";
 }
 
 // 执行生成
