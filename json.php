@@ -1,7 +1,7 @@
 <?php
 /**
  * Markdown博客生成脚本
- * 使用方式：php generate.php [内容开关 0/1]
+ * 使用方式：php json.php [内容开关 0/1]
  */
 
 $DEFAULT_CONFIG = [
