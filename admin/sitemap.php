@@ -4,7 +4,7 @@ check_login();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 生成sitemap逻辑
-    include '../generate.php'; // 先更新数据
+    include '../json.php'; // 先更新数据
     $data = json_decode(file_get_contents('../data.json'), true);
     
     $sitemap = '<?xml version="1.0" encoding="UTF-8"?>
