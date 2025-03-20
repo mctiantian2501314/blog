@@ -6,7 +6,7 @@
         .sidebar { width: 200px; }
         .main-content { flex: 1; }
     </style>
-    <script src="jquery-3.7.1.js"></script>
+    <script src="../libs/jquery/jquery-3.7.1.js"></script>
     <script src="../json.php"></script>
     <style>
         /* 弹窗样式 */
@@ -38,6 +38,7 @@
     <a href="posts.php">文章</a>
     <a href="config.php">配置</a>
     <a href="backup.php">备份</a>
+    <a href="sitemap.php">站点地图</a>
     <a href="?logout">退出</a>
     <a href="/">网站首页</a>
         <button id="fetchButton">更新内容</button>

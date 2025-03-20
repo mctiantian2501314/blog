@@ -1,0 +1,10 @@
+{
+    "generator": {
+        "md_dir": "md",
+        "output_file": "data.json",
+        "include_content": 0,
+        "time_format": "Y-m-d H:i:s",
+        "auto_parse_tags": 1,
+        "allowed_categories": []
+    }
+}

@@ -110,6 +110,7 @@ class StaticBlog {
         return await response.text();
     }
 
+/*
     renderPost(post, content) {
         this.dom.articleTitle.textContent = post.title;
         this.dom.articleCategory.textContent = post.category;
@@ -143,6 +144,51 @@ class StaticBlog {
         this.dom.postDetail.style.display = 'block';
         window.scrollTo({ top: 0, behavior:            'smooth' });
     }
+*/
+
+renderPost(post, content) {
+    // 更新或添加 <title> 标签
+    const existingTitle = document.querySelector("head > title");
+    if (!existingTitle) {
+        const titleTag = document.createElement("title");
+        titleTag.textContent = `${post.title}-天天的小站`;
+        document.head.appendChild(titleTag);
+    } else {
+        existingTitle.textContent = `${post.title}-天天的小站`;
+    }
+
+    this.dom.articleTitle.textContent = post.title;
+    this.dom.articleCategory.textContent = post.category;
+    this.dom.articleCreated.textContent = post.created;
+    this.dom.articleTags.innerHTML = post.tags?.map(t => 
+        `<span class="tag">${t}</span>`
+    ).join('') || '';
+
+    const parsedContent = marked.parse(content);
+    const safeContent = DOMPurify.sanitize(parsedContent, {
+        ADD_TAGS: ['iframe'],
+        ADD_ATTR: ['allowfullscreen', 'frameborder']
+    });
+
+    this.dom.articleContent.innerHTML = safeContent;
+
+    // 调用MathJax渲染数学公式
+    if (window.MathJax) {
+        MathJax.typesetPromise().then(() => {
+            console.log("MathJax rendering complete.");
+        }).catch((error) => {
+            console.error("MathJax rendering failed:", error);
+        });
+    } else {
+        console.warn("MathJax is not loaded. Please ensure MathJax is correctly included.");
+    }
+
+    this.postProcessContent();
+    
+    this.dom.postList.style.display = 'none';
+    this.dom.postDetail.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
     postProcessContent() {
         hljs.highlightAll();
@@ -223,22 +269,29 @@ class StaticBlog {
     }
 
     showPostList() {
-        this.state.currentFilter = { type: 'all', value: null };
-        history.replaceState(null, '', window.location.pathname);
-        
-        if (this.state.activeNavItem) {
-            this.state.activeNavItem.classList.remove('active');
-        }
-        const allItem = this.dom.nav.querySelector('[data-type="all"]');
-        if (allItem) {
-            allItem.classList.add('active');
-            this.state.activeNavItem = allItem;
-        }
-        
-        this.dom.postList.style.display = 'grid';
-        this.dom.postDetail.style.display = 'none';
-        this.renderView();
+    this.state.currentFilter = { type: 'all', value: null };
+    history.replaceState(null, '', window.location.pathname);
+    
+    if (this.state.activeNavItem) {
+        this.state.activeNavItem.classList.remove('active');
     }
+    const allItem = this.dom.nav.querySelector('[data-type="all"]');
+    if (allItem) {
+        allItem.classList.add('active');
+        this.state.activeNavItem = allItem;
+    }
+    
+    // 更新 <title> 标签
+    const existingTitle = document.querySelector("head > title");
+    if (existingTitle) {
+        existingTitle.textContent = "天天的小站";
+    }
+
+    this.dom.postList.style.display = 'grid';
+    this.dom.postDetail.style.display = 'none';
+    this.renderView();
+}
+
 
     renderView() {
         const filteredPosts = this.getFilteredPosts();
@@ -322,6 +375,7 @@ class StaticBlog {
         if (!items || items.length === 0) return '';
         
         return `
+        
             <div class="nav-group">
                 <div class="nav-header">${title}</div>
                 <div class="nav-items">

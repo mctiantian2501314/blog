@@ -95,7 +95,7 @@ body {
 }
 
 .post-item:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
 .post-detail {
