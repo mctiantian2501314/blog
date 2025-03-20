@@ -3,14 +3,15 @@ require_once 'auth.php';
 check_login();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 通过 AJAX 调用 json.php 获取数据
-    $jsonData = file_get_contents('json.php');
-    $data = json_decode($jsonData, true);
+    // 生成sitemap逻辑
+   
+    $data = json_decode(file_get_contents('../data.json'), true);
+    
 
-    // 自动获取当前域名
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
-    $host = $_SERVER['HTTP_HOST'];
-    $baseUrl = $protocol . $host;
+// 自动获取当前域名
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+$host = $_SERVER['HTTP_HOST'];
+$baseUrl = $protocol . $host;
 
     $sitemap = '<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
