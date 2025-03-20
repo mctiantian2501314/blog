@@ -476,3 +476,18 @@ pre:hover .code-copy {
     color: var(--primary-color); /* 标题颜色 */
 }
 
+        /* 视频容器响应式样式 */
+.video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 20px 0;
+}
+.video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+}
