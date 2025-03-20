@@ -3,17 +3,22 @@ require_once 'auth.php';
 check_login();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 生成sitemap逻辑
-    include '../json.php'; // 先更新数据
-    $data = json_decode(file_get_contents('../data.json'), true);
-    
+    // 通过 AJAX 调用 json.php 获取数据
+    $jsonData = file_get_contents('json.php');
+    $data = json_decode($jsonData, true);
+
+    // 自动获取当前域名
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+    $host = $_SERVER['HTTP_HOST'];
+    $baseUrl = $protocol . $host;
+
     $sitemap = '<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
     
     foreach ($data['posts'] as $post) {
         $sitemap .= "
         <url>
-            <loc>/?path={$post['path']}</loc>
+            <loc>{$baseUrl}/?path={$post['path']}</loc>
             <lastmod>".date('Y-m-d', strtotime($post['modified']))."</lastmod>
         </url>";
     }
