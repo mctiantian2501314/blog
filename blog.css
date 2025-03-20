@@ -476,7 +476,7 @@ pre:hover .code-copy {
     color: var(--primary-color); /* 标题颜色 */
 }
 
-        /* 视频容器响应式样式 */
+/* 视频容器响应式样式 */
 .video-container {
             position: relative;
             padding-bottom: 56.25%;
