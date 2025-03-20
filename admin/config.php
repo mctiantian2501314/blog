@@ -6,19 +6,25 @@ check_login();
 $config_json_file = '../blog_config.json';
 $config_index_html_file = '../index.html';
 $config_json_php_file = '../json.php';
+$config_blog_js_file = '../blog.js';
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $config_json_content = $_POST['config_json'];
     $config_index_html_content = $_POST['config_index_html'];
     $config_json_php_content = $_POST['config_json_php'];
-
+    $config_blog_js_content = $_POST['config_blog_js'];
+     
     // 保存JSON配置文件的草稿
     file_put_contents($config_json_file.'.bak', $config_json_content);
     // 保存HTML配置文件的草稿
     file_put_contents($config_index_html_file.'.bak', $config_index_html_content);
     // 保存PHP配置文件的草稿
     file_put_contents($config_json_php_file.'.bak', $config_json_php_content);
-
+    // 保存js配置文件的草稿
+        file_put_contents($config_blog_js_file.'.bak', $config_blog_js_content);
+        
+        
     if (isset($_POST['publish'])) {
         // 发布JSON配置文件
         rename($config_json_file.'.bak', $config_json_file);
@@ -26,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         rename($config_index_html_file.'.bak', $config_index_html_file);
         // 发布PHP配置文件
         rename($config_json_php_file.'.bak', $config_json_php_file);
+        rename($config_blog_js_file.'.bak', $config_blog_js_content);
     }
 }
 
@@ -41,6 +48,10 @@ $current_config_php = file_exists($config_json_php_file)?
 // 读取配置站点html
 $current_config_html = file_exists($config_index_html_file)? 
     file_get_contents($config_index_html_file) : 
+    '{"generator": {}}';
+// 读取配置站点js
+$current_config_js = file_exists($config_blog_js_file)? 
+    file_get_contents($config_blog_js_file) : 
     '{"generator": {}}';
 ?>
 <!DOCTYPE html>
@@ -79,6 +90,14 @@ $current_config_html = file_exists($config_index_html_file)?
             }
             </pre>把这段代码注释掉</p>
             <textarea name="config_json_php" style="width:100%;height:500px;font-family: monospace;"><?= htmlspecialchars($current_config_php) ?></textarea>
+            
+          <h3>配置js</h3>
+          <p>主系统 严重危险 不建议修改 ...</p>
+          <pre>
+          ${blog_title}
+          </pre>
+          <p>title元素可以修改</p>         
+         <textarea name="config_json_php" style="width:100%;height:500px;font-family: monospace;"><?= htmlspecialchars($current_config_js) ?></textarea> 
         </form>
     </div>
 </body>

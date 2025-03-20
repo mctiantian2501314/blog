@@ -1,3 +1,4 @@
+var blog_title="天天的小站"
 class StaticBlog {
     constructor() {
         this.config = {
@@ -151,10 +152,10 @@ renderPost(post, content) {
     const existingTitle = document.querySelector("head > title");
     if (!existingTitle) {
         const titleTag = document.createElement("title");
-        titleTag.textContent = `${post.title}-天天的小站`;
+        titleTag.textContent = `${post.title}-${blog_title}`;
         document.head.appendChild(titleTag);
     } else {
-        existingTitle.textContent = `${post.title}-天天的小站`;
+        existingTitle.textContent = `${post.title}-${blog_title}`;
     }
 
     this.dom.articleTitle.textContent = post.title;
@@ -284,7 +285,7 @@ renderPost(post, content) {
     // 更新 <title> 标签
     const existingTitle = document.querySelector("head > title");
     if (existingTitle) {
-        existingTitle.textContent = "天天的小站";
+        existingTitle.textContent = `${blog_title}`;
     }
 
     this.dom.postList.style.display = 'grid';
