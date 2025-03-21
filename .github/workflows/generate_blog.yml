@@ -1,4 +1,4 @@
-name: Generate Blog
+name: Generate Blog Data
 
 on:
   push:
@@ -21,10 +21,10 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          
+          pip install -r requirements.txt  # 如果你有requirements.txt文件
 
-      - name: Run generate_blog.py
-        run: python generate_blog.py
+      - name: Run generate_blog_data.py
+        run: python generate_blog_data.py
 
       - name: Commit and push generated files
         env:
@@ -33,5 +33,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "Auto-generated blog content" || exit 0
+          git commit -m "Auto-generated blog data" || exit 0
           git push origin master
