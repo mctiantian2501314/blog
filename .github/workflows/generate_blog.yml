@@ -23,8 +23,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt  # 如果你有requirements.txt文件
 
-      - name: Run generate_blog_data.py
-        run: python generate_blog_data.py
+      - name: Run generate_blog.py
+        run: python generate_blog.py
 
       - name: Commit and push generated files
         env:
