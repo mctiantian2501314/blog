@@ -7,7 +7,7 @@ on:
       - 'content/**'
       - 'requirements.txt'
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 jobs:
