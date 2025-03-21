@@ -46,5 +46,5 @@ jobs:
         else
           git commit -m "Auto-generated blog update"
           # 强制推送（避免历史冲突）
-          git push origin HEAD:main
+          git push origin HEAD:master
         fi
