@@ -65,7 +65,7 @@
     
     <div class="copy-success" id="copySuccess">复制成功！</div>
 
-       <footer class="site-footer">
+   <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section">
                 <h4>版权信息</h4>
@@ -97,15 +97,6 @@
 <li><a href="https://yckceo.vip/" target="_blank">木木源仓库</a></li>
 <li><a href="https://skybook.pages.dev/" target="_blank">明月书阁</a></li>
 
-
-                </ul>
-                </ul>
-            </div>
-        </div>
-
-    </footer>
-   
-     
 <!--  cdnjs CDN -->
 <script src="./libs/marked/marked.min.js"></script>
 <script src="./libs/dompurify/purify.min.js"></script>
