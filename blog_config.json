@@ -1,0 +1,11 @@
+{
+    "generator": {
+        "md_dir": "md",
+        "output_dir": "data",
+        "page_size": 10,
+        "include_content": true,
+        "time_format": "%Y-%m-%d %H:%M:%S",
+        "auto_parse_tags": true,
+        "allowed_categories": []
+    }
+}

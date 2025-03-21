@@ -44,6 +44,7 @@ body {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+
 .nav-item {
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -52,7 +53,6 @@ body {
   transition: all 0.3s ease;
   user-select: none;
 }
-
 .nav-item.active {
   background: var(--primary-color);
   color: white !important;
@@ -253,7 +253,7 @@ pre:hover .code-copy {
 
   .nav-group {
     position: static;
-    margin: 2px 0;
+    margin: 5px 0;
   }
 
   .nav-header {
@@ -490,4 +490,19 @@ pre:hover .code-copy {
             width: 100%;
             height: 100%;
             border: none;
+}
+
+#loading {
+    display: flex; /* 使用flex布局 */
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    position: fixed; /* 固定定位 */
+    top: 0;
+    left: 0;
+    width: 100%; /* 占满整个屏幕宽度 */
+    height: 100%; /* 占满整个屏幕高度 */
+    background-color: rgba(128, 128, 128, 0.5); /* 灰色半透明背景 */
+    z-index: 1000; /* 确保在最上层 */
+    font-size: 2rem; /* 字体大小设置为2rem，可以根据需要调整 */
+    color: white; /* 字体颜色为白色 */
 }
