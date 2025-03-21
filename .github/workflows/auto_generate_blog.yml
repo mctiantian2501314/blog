@@ -16,7 +16,7 @@ jobs:
   generate-blog:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # 允许GITHUB_TOKEN写入仓库
+      contents: write
 
     steps:
     - name: Checkout repository
@@ -32,87 +32,20 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Generate blog content
-      run: python generate_blog.py
+    - name: Generate content
+      run: |
+        python generate_blog.py
+        python generate_data_json.py
+        python generate_sitemap.py
 
-    - name: Commit and push changes (generate_blog.py)
+    - name: Commit and push changes
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
         git add .
         if git diff-index --quiet HEAD --; then
-          echo "No changes to commit from generate_blog.py"
+          echo "No changes to commit"
         else
-          git commit -m "Auto-generated blog update from generate_blog.py"
-          git push origin HEAD:master
-        fi
-
-  generate-data-json:
-    needs: generate-blog
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write  # 允许GITHUB_TOKEN写入仓库
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-
-    - name: Install dependencies
-      run: pip install -r requirements.txt
-
-    - name: Generate data JSON
-      run: python generate_data_json.py
-
-    - name: Commit and push changes (generate_data_json.py)
-      run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-        git add .
-        if git diff-index --quiet HEAD --; then
-          echo "No changes to commit from generate_data_json.py"
-        else
-          git commit -m "Auto-generated data JSON update from generate_data_json.py"
-          git push origin HEAD:master
-        fi
-
-  generate-sitemap:
-    needs: generate-data-json
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write  # 允许GITHUB_TOKEN写入仓库
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
-
-    - name: Install dependencies
-      run: pip install -r requirements.txt
-
-    - name: Generate sitemap
-      run: python generate_sitemap.py
-
-    - name: Commit and push changes (generate_sitemap.py)
-      run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-        git add .
-        if git diff-index --quiet HEAD --; then
-          echo "No changes to commit from generate_sitemap.py"
-        else
-          git commit -m "Auto-generated sitemap update from generate_sitemap.py"
+          git commit -m "Auto-generated content update"
           git push origin HEAD:master
         fi
