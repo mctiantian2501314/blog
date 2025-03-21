@@ -262,7 +262,7 @@ body="show=title&keyboard="+key;
 $=java.post(url,body,{}).header("Location");
 java.log("https://m.fushutxt.cc/e/search/"+$);
 或者
-{{java.post('https://m.siyixs.com/search/','keyword='+key+'&submit=',{}).header("Location")}}
+{%`{{java.post('https://m.siyixs.com/search/','keyword='+key+'&submit=',{}).header("Location")}}`%}
 或者
 <js>
 url="https://m.siyixs.com";
