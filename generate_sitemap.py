@@ -5,6 +5,7 @@ from xml.dom.minidom import parseString
 
 # 定义博客的域名
 baseUrl = "https://blog.ttxz.eu.org"  # 替换为你的博客域名
+blog_title = "天天的小站"  # 替换为你的博客名称
 
 def load_meta_data():
     meta_path = 'data/meta.json'
@@ -42,8 +43,8 @@ def generate_sitemap():
             loc = SubElement(url, 'loc')
             loc.text = f"{baseUrl}/?path={post['path']}"  # 使用博客域名和文章路径
 
-            title = SubElement(url, 'title')
-            title.text = post.get('title', "")  # 如果缺少标题字段，设置为空字符串
+            title_element = SubElement(url, 'title')
+            title_element.text = f"{post.get('title', '')}-{blog_title}"
 
             category = SubElement(url, 'category')
             category.text = post.get('category', "")  # 如果缺少分类字段，设置为空字符串
