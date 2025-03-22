@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -26,10 +26,23 @@ jobs:
       - name: Run script
         run: python generate_timestamp.py
 
+      - name: Check if file exists and create if necessary
+        run: |
+          if [ ! -d "timestamp" ]; then
+            mkdir timestamp
+          fi
+          if [ ! -f "timestamp/sy_timestamp.json" ]; then
+            echo "{}" > timestamp/sy_timestamp.json
+          fi
+
       - name: Commit and push generated file
         run: |
-          git config --global user.name  "GitHub Actions"
+          git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git add timestamp/sy_timestamp.json
-          git commit -m "Update timestamp file" || echo "No changes to commit"
-          git push origin master
+          git add timestamp/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update timestamp file"
+            git push origin master --force-with-lease
+          fi
