@@ -1,24 +1,22 @@
 name: Run Script Daily
 
-
 on:
   schedule:
-    - cron: '0 0 * * *' 
-  workflow_dispatch: 
-
+    - cron: '0 0 * * *'  # 每天凌晨 0 点
+  workflow_dispatch:  # 手动触发
 
 jobs:
   run-script:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3  
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
@@ -26,4 +24,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run script
-        run: python generate_timestamp.py 
+        run: python generate_timestamp.py
