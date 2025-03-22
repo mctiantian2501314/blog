@@ -506,3 +506,12 @@ pre:hover .code-copy {
     font-size: 2rem; /* 字体大小设置为2rem，可以根据需要调整 */
     color: white; /* 字体颜色为白色 */
 }
+
+#timestamp-container {
+            text-align: center; /* 水平居中 */
+            margin: 20px auto; /* 垂直居中，自动外边距 */
+            font-size: 16px; /* 字体大小 */
+           
+            width: 80%; /* 容器宽度 */
+            max-width: 600px; /* 最大宽度 */
+}
