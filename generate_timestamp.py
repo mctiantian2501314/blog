@@ -8,7 +8,7 @@ current_timestamp = int(time.time())
 if not os.path.exists("timestamp"):
     os.makedirs("timestamp")
 
-file_path = "timestamp/sy_token.json"
+file_path = "timestamp/sy_timestamp.json"
 data = {"timestamp": current_timestamp}
 with open(file_path, "w") as f:
     json.dump(data, f)
