@@ -19,21 +19,10 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
       - name: Run script
         run: python generate_timestamp.py
-
-      - name: Check if file exists and create if necessary
-        run: |
-          if [ ! -d "timestamp" ]; then
-            mkdir timestamp
-          fi
-          if [ ! -f "timestamp/sy_timestamp.json" ]; then
-            echo "{}" > timestamp/sy_timestamp.json
-          fi
 
       - name: Commit and push generated file
         run: |
