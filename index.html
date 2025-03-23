@@ -117,75 +117,65 @@
                 </ul>
             </div>
         </div>      
-    <div id="custom-footer" class="custom-footer">
-        <h3>Cloudflare 统计</h3>
-        <ul id="stats-list"></ul>
-    </div>
-        
+
+      
+
+      <div id="new-footer"></div>
+                 
        <div id="timestamp-container"></div>
 
     </footer>
-   
-  <script>
-        // 使用阿贾克斯请求数据
-        function fetchCloudflareStats() {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'https://api.ttxz.eu.org/proxy', true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    if (response.success) {
-                        displayStats(response.result);
-                    } else {
-                        console.error('请求失败:', response.errors);
-                    }
-                }
+
+    
+
+
+    <script src="./libs/jquery/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function() {
+            const settings = {
+                async: true,
+                crossDomain: true,
+                url: 'https://api.ttxz.eu.org/proxy',  // 发送到 FastAPI 服务器的代理路由
+                method: 'GET'
             };
-            xhr.send();
-        }
 
-        // 将数据展示为列表
-        function displayStats(data) {
-            var statsList = document.getElementById('stats-list');
-            statsList.innerHTML = ''; // 清空之前的列表内容
+            $.ajax(settings).done(function(response) {
+                // 检查请求是否成功
+                if (response.success) {
+                    // 获取数据
+                    var queryCount = response.result.totals.queryCount;
+                    var since = response.result.query.since;
+                    var until = response.result.query.until;
+                    var queryName = response.result.query.filters.split('==')[1];
+                    var limit = response.result.query.limit;
+                    var rows = response.result.rows;
 
-            var queryCount = data.totals.queryCount;
-            var since = new Date(data.query.since).toLocaleString('zh-CN');
-            var until = new Date(data.query.until).toLocaleString('zh-CN');
-            var rows = data.rows;
-            var limit = data.query.limit;
-            var queryName = data.query.filters.split('==')[1];
+                    // 创建新的页脚内容
+                    var newFooterContent = `
+                        <div id="footer-stats" class="custom-footer">
+                                        <h4>cf查询统计</h4>
+                            <ul>
+                                <li>访问量：${queryCount}</li>
+                                <li>查询名称：${queryName}</li>
+                                <li>开始时间：${since}</li>
+                                <li>结束时间：${until}</li>
+                                <li>最大返回数：${limit}</li>
+                                <li>返回行数：${rows}</li>
+                            </ul>
+                        </div>
+                    `;
 
-            var listItem1 = document.createElement('li');
-            listItem1.textContent = '访问量：' + queryCount;
-            statsList.appendChild(listItem1);
-
-            var listItem2 = document.createElement('li');
-            listItem2.textContent = '开始时间：' + since;
-            statsList.appendChild(listItem2);
-
-            var listItem3 = document.createElement('li');
-            listItem3.textContent = '结束时间：' + until;
-            statsList.appendChild(listItem3);
-
-            var listItem4 = document.createElement('li');
-            listItem4.textContent = '数据行数：' + rows;
-            statsList.appendChild(listItem4);
-
-            var listItem5 = document.createElement('li');
-            listItem5.textContent = '数据总数限制：' + limit;
-            statsList.appendChild(listItem5);
-
-            var listItem6 = document.createElement('li');
-            listItem6.textContent = '查询域名：' + queryName;
-            statsList.appendChild(listItem6);
-        }
-
-        // 页面加载完成后请求数据
-        window.onload = function() {
-            fetchCloudflareStats();
-        };
+                    // 将新的页脚内容添加到页面
+                    $('#new-footer').html(newFooterContent);
+                } else {
+                    console.error('请求失败:', response.errors);
+                }
+            }).fail(function(xhr, status, error) {
+                console.error('AJAX 请求失败:', error);
+            });
+        });
     </script>
+
      <script>
         
         function fetchTimestamp() {
