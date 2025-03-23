@@ -77,35 +77,10 @@
        <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h4>版权信息</h4>
-                <p>&copy; 天天的鸟蛋蛋</p>
-                <p></p>
-            </div>
-            <div class="footer-section">
-                <h4>联系作者</h4>
-                <ul>
-                   
-                    <li>GitHub<a href="//github.com/mctiantian2501314/" class="source-link source-ysqfby" target="_blank"> @mctiantian2501314</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                   <h4>友情链接</h4>
-                <ul>
-                    
-                    <li><a href="https://ged520-github-io.pages.dev/" target="_blank">辞之次元</a></li>
-                    <li><a href="https://jijianconvert.netlify.app/yuedutool" target="_blank">开源阅读/源阅发现转换工具</a></li>
-                    <li><a href="http://2280.eu.org:5080/" target="_blank">在线工具箱</a></li>
-                    <li><a href="http://2280.eu.org:8333/" target="_blank">发现规则</a></li>
-                    <li><a href="https://taoba.cf/" target="_blank">源社区</a></li>
-                    
-                    <li><a href="https://youfeng.pages.dev/" target="_blank">怣疯的个人主页</a></li>
-                   <li><a href="http://fb.shushan.vip:9999/" target="_blank">书山专享发布页
-</a></li>
-<li><a href="https://sbtool.us.kg/" target="_blank">🍟的工具箱</a></li>
-<li><a href="https://gitee.com/lff283/syrj/" target="_blank">活力宝日记</a></li>
-<li><a href="https://yckceo.vip/" target="_blank">木木源仓库</a></li>
-<li><a href="https://skybook.pages.dev/" target="_blank">明月书阁</a></li>
 
+            </div>
+            <div class="footer-section">
+                
 
                 </ul>
                 </ul>
@@ -147,11 +122,11 @@
 
             var gitalk = new Gitalk({
                   clientID: 'Ov23liAMaUtYM0kzBh6T',          // 替换为你的 GitHub Application Client ID
-                clientSecret: 'eb1f2ce4b100b31b59c6c37dda816945b19e0687',  // 替换为你的 GitHub Application Client Secret
+                clientSecret: '',  // 替换为你的 GitHub Application Client Secret
                 repo: 'blog',            // 替换为你的 GitHub 仓库名
                 owner: 'mctiantian2501314',       // 替换为你的 GitHub 用户名
                 admin: ['mctiantian2501314'],     // 替换为你的 GitHub 用户名
-                id: articleTitleElement.textContent, // 使用文章标题作为唯一标识
+                id:location.pathname , // 使用文章标题作为唯一标识
                 createIssueManually: true,          // 自动创建 Issue
                 distractionFreeMode: false       
             });
