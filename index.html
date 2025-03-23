@@ -110,17 +110,65 @@
 <li><a href="https://gitee.com/lff283/syrj/" target="_blank">活力宝日记</a></li>
 <li><a href="https://yckceo.vip/" target="_blank">木木源仓库</a></li>
 <li><a href="https://skybook.pages.dev/" target="_blank">明月书阁</a></li>
-
+<li><a href="https://www.yesui.me/" target="_blank">情无羁的空间</a></li>
 
                 </ul>
                 </ul>
             </div>
         </div>
+        <p>时间戳:
 <div id="timestamp-container">
-       
+       </p>
     </div>
+     <div id="new-footer"></div>
     </footer>
    
+   <!-- 使用其他 CDN 加载 jQuery -->
+    <script src="./libs/jquery/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function() {
+            const settings = {
+                async: true,
+                crossDomain: true,
+                url: 'https://api.ttxz.eu.org/proxy',  // 发送到 FastAPI 服务器的代理路由
+                method: 'GET'
+            };
+
+            $.ajax(settings).done(function(response) {
+                // 检查请求是否成功
+                if (response.success) {
+                    // 获取数据
+                    var queryCount = response.result.totals.queryCount;
+                    var since = response.result.query.since;
+                    var until = response.result.query.until;
+                    var queryName = response.result.query.filters.split('==')[1];
+                    var limit = response.result.query.limit;
+                    var rows = response.result.rows;
+
+                    // 创建新的页脚内容
+                    var newFooterContent = `
+                        <div id="footer-stats" class="footer-stats">
+                            <ul>
+                                <li>访问量：${queryCount}</li>
+                                <li>查询名称：${queryName}</li>
+                                <li>开始时间：${since}</li>
+                                <li>结束时间：${until}</li>
+                                <li>最大返回数：${limit}</li>
+                                <li>返回行数：${rows}</li>
+                            </ul>
+                        </div>
+                    `;
+
+                    // 将新的页脚内容添加到页面
+                    $('#new-footer').html(newFooterContent);
+                } else {
+                    console.error('请求失败:', response.errors);
+                }
+            }).fail(function(xhr, status, error) {
+                console.error('AJAX 请求失败:', error);
+            });
+        });
+    </script>
      <script>
         
         function fetchTimestamp() {
