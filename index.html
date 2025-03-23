@@ -129,30 +129,7 @@
         }
         window.onload = fetchTimestamp;
     </script>
-    <script src="./libs/marked/marked.min.js"></script>
-    <script src="./libs/dompurify/purify.min.js"></script>
-    <script src="./libs/highlight.js/highlight.min.js"></script>
-    <script src="./libs/mathjax/es5/tex-mml-chtml.js"></script>
-    <script src="blog.js"></script>
-    <script src="s.js"></script>
-    <!-- Gitalk JS -->
-    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-    <script>
-        // 检测是否是文章页面
-        if (window.location.search.includes('path=')) {
-            document.getElementById('gitalk-container').style.display = 'block';
-            var gitalk = new Gitalk({
-                clientID: 'Ov23liAMaUtYM0kzBh6T',          // 替换为你的 GitHub Application Client ID
-                clientSecret: 'eb1f2ce4b100b31b59c6c37dda816945b19e0687',  // 替换为你的 GitHub Application Client Secret
-                repo: 'blog',            // 替换为你的 GitHub 仓库名
-                owner: 'mctiantian2501314',       // 替换为你的 GitHub 用户名
-                admin: ['mctiantian2501314'],     // 替换为你的 GitHub 用户名
-                id: location.pathname,               // 使用文章的路径作为唯一标识
-                distractionFreeMode: false           // 是否启用无干扰模式
-            });
-            gitalk.render('gitalk-container');
-        }
-    </script>
+   
 <!--  cdnjs CDN -->
 <script src="./libs/marked/marked.min.js"></script>
 <script src="./libs/dompurify/purify.min.js"></script>
