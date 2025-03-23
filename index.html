@@ -126,8 +126,7 @@
 
     </footer>
    
-
-    <script>
+  <script>
         // 使用阿贾克斯请求数据
         function fetchCloudflareStats() {
             var xhr = new XMLHttpRequest();
@@ -149,13 +148,14 @@
         function displayStats(data) {
             var statsList = document.getElementById('stats-list');
             statsList.innerHTML = ''; // 清空之前的列表内容
+
             var queryCount = data.totals.queryCount;
             var since = new Date(data.query.since).toLocaleString('zh-CN');
             var until = new Date(data.query.until).toLocaleString('zh-CN');
             var rows = data.rows;
-            var limit = response.result.query.limit;
-            var queryName = response.result.query.filters.split('==')[1];
-            
+            var limit = data.query.limit;
+            var queryName = data.query.filters.split('==')[1];
+
             var listItem1 = document.createElement('li');
             listItem1.textContent = '访问量：' + queryCount;
             statsList.appendChild(listItem1);
@@ -171,11 +171,13 @@
             var listItem4 = document.createElement('li');
             listItem4.textContent = '数据行数：' + rows;
             statsList.appendChild(listItem4);
+
             var listItem5 = document.createElement('li');
-            listItem2.textContent = '数据总数：' + limit;
+            listItem5.textContent = '数据总数限制：' + limit;
             statsList.appendChild(listItem5);
+
             var listItem6 = document.createElement('li');
-            listItem2.textContent = '查询域名：' + queryName;
+            listItem6.textContent = '查询域名：' + queryName;
             statsList.appendChild(listItem6);
         }
 
