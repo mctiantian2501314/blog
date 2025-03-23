@@ -506,7 +506,7 @@ pre:hover .code-copy {
     font-size: 2rem; /* 字体大小设置为2rem，可以根据需要调整 */
     color: white; /* 字体颜色为白色 */
 }
-.footer-stats {
+.footer-section {
             padding: 10px;
            
             border-top: 1px solid #ddd;
