@@ -65,6 +65,24 @@
                 </div>
                 <div class="article-content" id="articleContent"></div>
                 <div id="gitalk-container" style="display: none;"></div>
+                    <script>
+const gitalk = new Gitalk({
+    clientID: 'Ov23liAMaUtYM0kzBh6T',
+    clientSecret: 'eb1f2ce4b100b31b59c6c37dda816945b19e0687',
+    repo: 'blog',
+    owner: 'mctiantian2501314',
+    admin: ['mctiantian2501314'],
+    id: location.pathname, 
+    distractionFreeMode: false 
+  });
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('gitalk-container').innerHTML = 'Gitalk comments not available by default when the website is previewed locally.';
+      return;
+    }
+    gitalk.render('gitalk-container');
+  })();
+    </script>
                  </article>
                  
                </article>
@@ -140,25 +158,6 @@
     <script src="blog.js"></script>
    <script src="s.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-    <script>
-        // 检测是否是文章页面
-        const articleTitleElement = document.getElementById('articleTitle');
-        const postDetailElement = document.getElementById('postDetail');
-        if (postDetailElement.style.display !== 'none') {
-            document.getElementById('gitalk-container').style.display = 'block';
 
-            var gitalk = new Gitalk({
-                  clientID: 'Ov23liAMaUtYM0kzBh6T',          // 替换为你的 GitHub Application Client ID
-                clientSecret: '',  // 替换为你的 GitHub Application Client Secret
-                repo: 'blog',            // 替换为你的 GitHub 仓库名
-                owner: 'mctiantian2501314',       // 替换为你的 GitHub 用户名
-                admin: ['mctiantian2501314'],     // 替换为你的 GitHub 用户名
-                id:location.pathname , // 使用文章标题作为唯一标识
-                createIssueManually: true,          // 自动创建 Issue
-                distractionFreeMode: false       
-            });
-            gitalk.render('gitalk-container');
-        }
-    </script>
 </body>
 </html>
