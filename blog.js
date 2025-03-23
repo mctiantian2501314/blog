@@ -19,7 +19,6 @@ class StaticBlog {
             articleCreated: document.getElementById('articleCreated'),
             articleTags: document.getElementById('articleTags'),
             loadingIndicator: document.getElementById('loading'),
-            
         };
 
         this.state = {
@@ -118,7 +117,6 @@ class StaticBlog {
         
         if (path) {
             // 进入详情页时隐藏按钮
-            
             const post = this.state.allPosts.find(p => p.path === decodeURIComponent(path));
             post ? this.showPostDetail(post) : this.showNotFound();
         } else {
@@ -159,8 +157,10 @@ class StaticBlog {
 
         document.querySelectorAll('.post-item').forEach(item => {
             item.addEventListener('click', () => {
-                const post = this.state.allPosts.find(p => p.path === item.dataset.path);
-                this.showPostDetail(post);
+                const path = item.dataset.path;
+                // 使用 URL 参数加载文章详情
+                const url = `?path=${encodeURIComponent(path)}`;
+                window.location.href = url;
             });
         });
     }
@@ -487,7 +487,6 @@ class StaticBlog {
                 <button onclick="blog.showPostList()">返回列表</button>
             </div>
         `;
-        
     }
 
     showError(message) {
