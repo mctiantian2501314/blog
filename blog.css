@@ -509,23 +509,3 @@ pre:hover .code-copy {
 
 
    /* 新增评论区样式 */
-#gitalk-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 30px;
-            background: var(--post-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
-
-        .gt-container .gt-header-textarea {
-            border-radius: 8px !important;
-            transition: all 0.3s ease !important;
-        }
-
-        @media (max-width: 768px) {
-            #gitalk-container {
-                margin: 20px;
-                padding: 15px;
-            }
-}
