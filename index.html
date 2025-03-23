@@ -66,11 +66,11 @@
                 <div class="article-content" id="articleContent"></div>
                 
                  </article>
-                 <div id="gitalk-container" style="display: none;"></div>
+                 
                </article>
         </main>
     </div>
-
+<div id="gitalk-container" style="display: none;"></div>
     
     <div class="copy-success" id="copySuccess">复制成功！</div>
 
@@ -160,5 +160,22 @@
 <script src="./libs/mathjax/es5/tex-mml-chtml.js"></script>
     <script src="blog.min.js"></script>
    <script src="s.js"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+    <script>
+        // 检测是否是文章页面
+        if (window.location.search.includes('path=')) {
+            document.getElementById('gitalk-container').style.display = 'block';
+            var gitalk = new Gitalk({
+                clientID: 'Ov23liAMaUtYM0kzBh6T',          // 替换为你的 GitHub Application Client ID
+                clientSecret: 'eb1f2ce4b100b31b59c6c37dda816945b19e0687',  // 替换为你的 GitHub Application Client Secret
+                repo: 'blog',            // 替换为你的 GitHub 仓库名
+                owner: 'mctiantian2501314',       // 替换为你的 GitHub 用户名
+                admin: ['mctiantian2501314'],     // 替换为你的 GitHub 用户名
+                id: location.pathname,               // 使用文章的路径作为唯一标识
+                distractionFreeMode: false           // 是否启用无干扰模式
+            });
+            gitalk.render('gitalk-container');
+        }
+    </script>
 </body>
 </html>
