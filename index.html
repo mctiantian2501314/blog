@@ -45,7 +45,22 @@
                 <div class="article-content" id="articleContent"></div>
                 <hr>
                  </article>
-                   <div id="gitalk-container"></div>
+                   <div class="giscus"></div>
+                   <script src="https://giscus.app/client.js"
+        data-repo="mctiantian2501314/blog"
+        data-repo-id="R_kgDON6WRvw"
+        data-category="General"
+        data-category-id="DIC_kwDON6WRv84CoXQr"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
                </article>
                
         </main>
@@ -103,67 +118,6 @@
 <script src="./libs/mathjax/es5/tex-mml-chtml.js"></script>
     <script src="blog.js"></script>
     <script src="s.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
-    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.19.0/js/md5.min.js"></script>
-        <script>
-        // 配置参数 (需要修改的部分)
-        const GITALK_CONFIG = {
-            clientID: 'Ov23liAMaUtYM0kzBh6T',
-            clientSecret: 'eb1f2ce4b100b31b59c6c37dda816945b19e0687',
-            repo: 'blog',      // 仓库名
-            owner: 'mctiantian2501314',
-            admin: ['mctiantian2501314'],
-            labels: ['Gitalk'],
-            distractionFreeMode: false
-        };
-
-        // 监听文章加载
-        let lastPath = '';
-        const checkArticleLoad = () => {
-            const currentPath = location.search;
-            
-            if (currentPath !== lastPath && currentPath.includes('path=')) {
-                lastPath = currentPath;
-                initGitalk();
-            }
-            setTimeout(checkArticleLoad, 500);
-        };
-
-        // 初始化Gitalk
-        let gitalkInstance = null;
-        const initGitalk = () => {
-            if (gitalkInstance) {
-                gitalkInstance.destroy();
-            }
-
-            // 生成唯一ID
-            const id = md5(location.pathname + location.search);
-            
-            gitalkInstance = new Gitalk({
-                ...GITALK_CONFIG,
-                title: document.title.replace(/\s*\|.*$/, ''), // 从标题提取文章名
-                id: id
-            });
-
-            try {
-                gitalkInstance.render('gitalk-container');
-            } catch (err) {
-                console.error('Gitalk初始化失败:', err);
-            }
-        };
-
-        // 启动监听
-        checkArticleLoad();
-
-        // 返回按钮处理
-        document.getElementById('backButton').addEventListener('click', () => {
-            if (gitalkInstance) {
-                gitalkInstance.destroy();
-                document.getElementById('gitalk-container').innerHTML = '';
-            }
-        });
-    </script>
 
 </body>
 </html>
