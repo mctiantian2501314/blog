@@ -160,19 +160,23 @@
 <script src="./libs/mathjax/es5/tex-mml-chtml.js"></script>
     <script src="blog.js"></script>
    <script src="s.js"></script>
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"> <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
     <script>
         // 检测是否是文章页面
-        if (window.location.search.includes('path=')) {
+        const articleTitleElement = document.getElementById('articleTitle');
+        const postDetailElement = document.getElementById('postDetail');
+        if (postDetailElement.style.display !== 'none') {
             document.getElementById('gitalk-container').style.display = 'block';
+
             var gitalk = new Gitalk({
-                clientID: 'Ov23liAMaUtYM0kzBh6T',          // 替换为你的 GitHub Application Client ID
+                  clientID: 'Ov23liAMaUtYM0kzBh6T',          // 替换为你的 GitHub Application Client ID
                 clientSecret: 'eb1f2ce4b100b31b59c6c37dda816945b19e0687',  // 替换为你的 GitHub Application Client Secret
                 repo: 'blog',            // 替换为你的 GitHub 仓库名
                 owner: 'mctiantian2501314',       // 替换为你的 GitHub 用户名
                 admin: ['mctiantian2501314'],     // 替换为你的 GitHub 用户名
-                id: location.pathname,               // 使用文章的路径作为唯一标识
-                distractionFreeMode: false           // 是否启用无干扰模式
+                id: articleTitleElement.textContent, // 使用文章标题作为唯一标识
+                createIssueManually: true,          // 自动创建 Issue
+                distractionFreeMode: false       
             });
             gitalk.render('gitalk-container');
         }
