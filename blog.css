@@ -507,11 +507,25 @@ pre:hover .code-copy {
     color: white; /* 字体颜色为白色 */
 }
 
-#timestamp-container {
-            text-align: center; /* 水平居中 */
-            margin: 20px auto; /* 垂直居中，自动外边距 */
-            font-size: 16px; /* 字体大小 */
-           
-            width: 80%; /* 容器宽度 */
-            max-width: 600px; /* 最大宽度 */
+
+   /* 新增评论区样式 */
+#gitalk-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background: var(--post-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .gt-container .gt-header-textarea {
+            border-radius: 8px !important;
+            transition: all 0.3s ease !important;
+        }
+
+        @media (max-width: 768px) {
+            #gitalk-container {
+                margin: 20px;
+                padding: 15px;
+            }
 }
