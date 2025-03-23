@@ -1,69 +1,58 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>天天的小站</title>
-    <meta name="robots" content="all">
-    <meta name="googlebot" content="ajax">
-    <meta name="description" content="天天的小站，一个专注于技术、生活和分享的个人博客。">
-    <meta name="keywords" content="技术博客,个人博客,编程">
-    <link rel="canonical" href="https://blog.ttxz.eu.org/">
-    <link rel="icon" href="icon.png" type="image/png">
     
-    
-    <meta http-equiv="Content-Security-Policy" 
-          content="default-src 'self' https:;
-                  script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline';
-                  style-src 'self' https://cdn.jsdelivr.net 'unsafe-inline';
-                  img-src 'self' data: https://avatars.githubusercontent.com;
-                  connect-src 'self' https://api.github.com;">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github.min.css">
+    <meta name="color-scheme" content="light dark">
+		<link rel="stylesheet" href="github-markdown.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mgz0227/The-tutorial-of-Legado@main/index.css">
+ 
 
-    
-    <link rel="stylesheet" href="normalize.min.css">
-    <link rel="stylesheet" href="github.min.css">
-    <link rel="stylesheet" href="github-markdown.css">
     <link rel="stylesheet" href="blog.css">
-    
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
 </head>
 <body>
-    
     <div class="container">
-        <div><img src="icon.png" alt="网站图标" class="site-icon">
-            <span class="site-title">天天的小站</span>
-        </div>
+    <div><img src="icon.png" alt="网站图标" class="site-icon">
+        <span class="site-title">天天的小站</span>
+    </div>
         <nav class="main-nav" id="nav"></nav>
+        
         <main class="content-area">
             <section class="post-list" id="postList"></section>
-            <div id="loading" style="display: none;">加载中...</div>
+                        <div id="loading" style="display: none;">加载中...</div>
             <article class="post-detail" id="postDetail">
-                <article class="markdown-body">
-                    <div class="article-header">
-                        <h1 id="articleTitle"></h1>
-                        <div class="meta-info">
-                            <span class="category" id="articleCategory"></span>
-                            <time class="created" id="articleCreated"></time>
-                            <div class="tags" id="articleTags"></div>
+            <article class="markdown-body" >
+               <div class="article-header">
+                  
+                  
+                    <h1 id="articleTitle"></h1>
+                    <div class="meta-info">
+                        <span class="category" id="articleCategory"></span>
+                        <time class="created" id="articleCreated"></time>
+                        <div class="tags" id="articleTags">
+                        
                         </div>
-                        <br>
-                        <p>
-                            <button class="back-button" id="backButton">← 返回列表</button>
-                        </p>
                     </div>
-                    <div id="articleContent"></div>
-                </article>
-                
-                
-                <div id="gitalk-container"></div>
-            </article>
+                    <br>
+                    <p>
+                    <button class="back-button" id="backButton">← 返回列表</button>
+                </p>
+                </div>
+                <div class="article-content" id="articleContent"></div>
+                 </article>
+                   <div id="gitalk-container"></div>
+               </article>
         </main>
     </div>
 
     
     <div class="copy-success" id="copySuccess">复制成功！</div>
-<footer class="site-footer">
+
+    <footer class="site-footer">
         <div class="footer-content">
             <div class="footer-section">
                 <h4>版权信息</h4>
@@ -100,42 +89,22 @@
                 </ul>
             </div>
         </div>
-<div id="timestamp-container">
-
+<div id="timestamp-container"></div>
     </footer>
-        
-       
-    </div>
-    <script>
-        function fetchTimestamp() {
-            const xhr = new XMLHttpRequest();
-            xhr.open("GET", "timestamp/sy_timestamp.json", true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    const data = JSON.parse(xhr.responseText);
-                    document.getElementById("timestamp-container").innerText = data.timestamp;
-                }
-            };
-            xhr.send();
-        }
-        window.onload = fetchTimestamp;
-    </script>
    
-
-    
-    <script src="./libs/marked/marked.min.js"></script>
-    <script src="./libs/dompurify/purify.min.js"></script>
-    <script src="./libs/highlight.js/highlight.min.js"></script>
-    <script src="./libs/mathjax/es5/tex-mml-chtml.js"></script>
+     
+        
+<!--  cdnjs CDN -->
+<script src="./libs/marked/marked.min.js"></script>
+<script src="./libs/dompurify/purify.min.js"></script>
+<script src="./libs/highlight.js/highlight.min.js"></script>
+<script src="./libs/mathjax/es5/tex-mml-chtml.js"></script>
     <script src="blog.js"></script>
     <script src="s.js"></script>
-
-    <!-- 新增 Gitalk 依赖 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.19.0/js/md5.min.js"></script>
-
-    <!-- 新增 Gitalk 初始化脚本 -->
-    <script>
+        <script>
         // 配置参数 (需要修改的部分)
         const GITALK_CONFIG = {
             clientID: 'Ov23liAMaUtYM0kzBh6T',
@@ -193,5 +162,6 @@
             }
         });
     </script>
+
 </body>
 </html>
