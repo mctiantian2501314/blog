@@ -203,6 +203,21 @@
 <script src="./libs/mathjax/es5/tex-mml-chtml.js"></script>
     <script src="blog.js"></script>
     <script src="s.js"></script>
+    <link rel="stylesheet" href="./QPlayer/QPlayer.css">
+    <script src="./QPlayer/dist/QPlayer.js"></script>
+    <script src="./QPlayer/script.js"></script>
+    
+    <script id="js-code">
+fetch('/QPlayer/QPlayer.json')
+  .then(response => response.json()) // 将响应解析为 JSON
+  .then(data => {
+    window.QPlayer.list = data; // 将读取到的数据赋值给 window.QPlayer.list
+    console.log(window.QPlayer.list); // 打印数据
+  })
+  .catch(error => {
+    console.error('读取文件失败：', error);
+  });
 
+</script>
 </body>
 </html>
