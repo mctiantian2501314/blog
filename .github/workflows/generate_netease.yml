@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write  # 授予推送权限
-      
+
     steps:
       # 步骤 1：检出代码（修正了缩进问题）
       - name: Checkout repository
@@ -30,22 +30,25 @@ jobs:
         run: pip install -r requirements.txt
 
       # 步骤 4：运行生成时间戳的脚本
-      - name: Run script
+      - name: Run generate_timestamp.py
+        run: python generate_timestamp.py
+
+      # 步骤 5：运行生成网易云数据的脚本
+      - name: Run generate_netease.py
         run: python generate_netease.py
-            
-            
-      # 步骤 5：提交并推送变更（修正分支和推送方式）
-      - name: Commit and push generated file
+
+      # 步骤 6：提交并推送变更（修正分支和推送方式）
+      - name: Commit and push generated files
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add .
-          
+
           # 检查是否有需要提交的变更
           if [ -z "$(git status --porcelain)" ]; then
             echo "No changes to commit"
           else
-            git commit -m "Automated timestamp update [skip ci]"
+            git commit -m "Automated update of timestamp and netease data [skip ci]"
             git pull  # 先拉取最新代码防止冲突
             git push origin HEAD:master
           fi
