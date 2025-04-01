@@ -31,7 +31,7 @@ jobs:
 
       # 步骤 4：运行生成时间戳的脚本
       - name: Run script
-        run: python generate_timestamp.py
+        run: python generate_netease.py
             
             
       # 步骤 5：提交并推送变更（修正分支和推送方式）
