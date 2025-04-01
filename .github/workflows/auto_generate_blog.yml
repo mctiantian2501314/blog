@@ -6,6 +6,7 @@ on:
       - 'generate_blog.py'
       - 'generate_data_json.py'
       - 'generate_sitemap.py'
+      - 'generate_netease.py'
       - 'content/**'
       - 'requirements.txt'
     branches:
