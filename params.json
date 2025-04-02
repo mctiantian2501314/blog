@@ -2,7 +2,26 @@
     {
         "server": "netease",
         "type": "playlist",
+        "id": "3778678"
+    },
+    {
+        "server": "netease",
+        "type": "playlist",
+        "id": "7748604088"
+    },
+    {
+        "server": "netease",
+        "type": "playlist",
         "id": "7752516107"
+    },
+    {
+        "server": "netease",
+        "type": "playlist",
+        "id": "8033767248"
+    },
+    {
+        "server": "netease",
+        "type": "song",
+        "id": "1990535764"
     }
-
 ]
