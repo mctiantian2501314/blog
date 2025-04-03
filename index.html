@@ -53,6 +53,24 @@
                 </p>
                 </div>
                 <div class="article-content" id="articleContent"></div>
+                <div style="text-align: center;"> <!-- 确保按钮水平居中 -->
+                    <button id="donateButton">赏</button>
+                </div>
+                
+                <!-- 弹窗元素 -->
+                <div id="donateModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h3>支持一下 ☕</h3>
+                        <p>打赏作者喝杯咖啡，感谢支持！</p>
+                        <div class="qr-code">
+                            <!-- 在这里插入二维码图片 -->
+                            <img src="mm_reward_qrcode_1743673093708.png" alt="打赏二维码" style="max-width: 100%;">
+                        </div>
+                        <p>✨祝你天天开心✨</p>
+                        <p>根据自身经济情况打赏即可，感谢支持！</p>
+                    </div>
+                </div>
                 <hr>
                  </article>
                    <div class="giscus"></div>
@@ -218,6 +236,92 @@ fetch('/QPlayer/QPlayer.json')
     console.error('读取文件失败：', error);
   });
 
+</script>
+
+<style>
+        /* 打赏按钮样式 */
+        #donateButton {
+            display: inline-block;
+            width: 64px; /* 按钮宽度 */
+            height: 64px; /* 按钮高度 */
+            line-height: 20px; /* 使文字垂直居中 */
+            background-color: orange; /* 橙色背景 */
+            border: none;
+            border-radius: 50%; /* 圆形按钮 */
+            font-size: 48px; /* 字体放大 */
+            font-weight: bold;
+            color: gold; /* 金色字体 */
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+            text-align: center; /* 文字水平居中 */
+            margin: 20px auto; /* 按钮水平居中 */
+        }
+
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .qr-code {
+            margin: 20px 0;
+        }
+    </style>
+    
+<script>
+    // 获取打赏按钮和弹窗元素
+    var donateButton = document.getElementById("donateButton");
+    var donateModal = document.getElementById("donateModal");
+    var closeButton = document.querySelector(".close");
+
+    // 点击打赏按钮时弹出弹窗
+    donateButton.onclick = function() {
+        donateModal.style.display = "block";
+    }
+
+    // 点击关闭按钮时关闭弹窗
+    closeButton.onclick = function() {
+        donateModal.style.display = "none";
+    }
+
+    // 点击弹窗外的区域时关闭弹窗
+    window.onclick = function(event) {
+        if (event.target == donateModal) {
+            donateModal.style.display = "none";
+        }
+    }
 </script>
 </body>
 </html>
