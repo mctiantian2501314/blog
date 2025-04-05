@@ -1,100 +1,91 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>天天的小站</title>
+    <title>天天的小站</title>
     <meta name="robots" content="all">
     <meta name="googlebot" content="ajax">
     <meta name="description" content="天天的小站，一个专注于技术、生活和分享的个人博客。这里记录了我的学习心得、项目经验和生活感悟。">
     <meta name="keywords" content="技术博客,个人博客,编程,生活感悟,项目经验,学习心得">
-<link rel="canonical" href="https://blog.ttxz.eu.org/">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
- <link rel="canonical" href="https://blog.ttxz.eu.org/">
+    <link rel="canonical" href="https://blog.ttxz.eu.org/">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="canonical" href="https://blog.ttxz.eu.org/">
     <link rel="icon" href="icon.png" type="image/png">
     <link rel="stylesheet" href="normalize.min.css">
     <link rel="shortcut icon" href="icon.png">
-    
+
     <link rel="stylesheet" href="github.min.css">
     <meta name="color-scheme" content="light dark">
-		<link rel="stylesheet" href="github-markdown.css">
+    <link rel="stylesheet" href="github-markdown.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mgz0227/The-tutorial-of-Legado@main/index.css">
 
 
     <link rel="stylesheet" href="blog.css">
 </head>
+
 <body>
     <div class="container">
-    <div><img src="icon.png" alt="网站图标" class="site-icon">
-        <span class="site-title">天天的小站</span>
-    </div>
+        <div><img src="icon.png" alt="网站图标" class="site-icon">
+            <span class="site-title">天天的小站</span>
+            
+        </div>
         <nav class="main-nav" id="nav"></nav>
-        
+
         <main class="content-area">
             <section class="post-list" id="postList"></section>
-                        <div id="loading" style="display: none;">加载中...</div>
+            <div id="loading" style="display: none;">加载中...</div>
             <article class="post-detail" id="postDetail">
-            <article class="markdown-body" >
-               <div class="article-header">
-                  
-                  
-                    <h1 id="articleTitle"></h1>
-                    <div class="meta-info">
-                        <span class="category" id="articleCategory"></span>
-                        <time class="created" id="articleCreated"></time>
-                        <div class="tags" id="articleTags">
-                        
+                <article class="markdown-body">
+                    <div class="article-header">
+
+
+                        <h1 id="articleTitle"></h1>
+                        <div class="meta-info">
+                            <span class="category" id="articleCategory"></span>
+                            <time class="created" id="articleCreated"></time>
+                            <div class="tags" id="articleTags">
+
+                            </div>
+                        </div>
+                        <br>
+                        <p>
+                            <button class="back-button" id="backButton">← 返回列表</button>
+                        </p>
+                    </div>
+                    <div class="article-content" id="articleContent"></div>
+                    <div style="text-align: center;">
+                        <!-- 确保按钮水平居中 -->
+                        <button id="donateButton">赏</button>
+                    </div>
+
+                    <!-- 弹窗元素 -->
+                    <div id="donateModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <h3>支持一下 ☕</h3>
+                            <p>打赏作者喝杯咖啡，感谢支持！</p>
+                            <div class="qr-code">
+                                <!-- 在这里插入二维码图片 -->
+                                <img src="mm_reward_qrcode_1743673093708.png" alt="打赏二维码" style="max-width: 100%;">
+                            </div>
+                            <p>✨祝你天天开心✨</p>
+                            <p>根据自身经济情况打赏即可，感谢支持！</p>
                         </div>
                     </div>
-                    <br>
-                    <p>
-                    <button class="back-button" id="backButton">← 返回列表</button>
-                </p>
-                </div>
-                <div class="article-content" id="articleContent"></div>
-                <div style="text-align: center;"> <!-- 确保按钮水平居中 -->
-                    <button id="donateButton">赏</button>
-                </div>
-                
-                <!-- 弹窗元素 -->
-                <div id="donateModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close">&times;</span>
-                        <h3>支持一下 ☕</h3>
-                        <p>打赏作者喝杯咖啡，感谢支持！</p>
-                        <div class="qr-code">
-                            <!-- 在这里插入二维码图片 -->
-                            <img src="mm_reward_qrcode_1743673093708.png" alt="打赏二维码" style="max-width: 100%;">
-                        </div>
-                        <p>✨祝你天天开心✨</p>
-                        <p>根据自身经济情况打赏即可，感谢支持！</p>
-                    </div>
-                </div>
-                <hr>
-                 </article>
-                   <div class="giscus"></div>
-                   <script src="https://giscus.app/client.js"
-        data-repo="mctiantian2501314/blog"
-        data-repo-id="R_kgDON6WRvw"
-        data-category="General"
-        data-category-id="DIC_kwDON6WRv84CoXQr"
-        data-mapping="url"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="zh-CN"
-        crossorigin="anonymous"
-        async>
-</script>
-               </article>
-               
+                    <hr>
+                </article>
+                <div class="giscus"></div>
+                <script src="https://giscus.app/client.js" data-repo="mctiantian2501314/blog" data-repo-id="R_kgDON6WRvw" data-category="General" data-category-id="DIC_kwDON6WRv84CoXQr" data-mapping="url" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="zh-CN" crossorigin="anonymous" async>
+                </script>
+            </article>
+
         </main>
     </div>
 
-    
+
     <div class="copy-success" id="copySuccess">复制成功！</div>
 
     <footer class="site-footer">
@@ -107,44 +98,44 @@
             <div class="footer-section">
                 <h4>联系作者</h4>
                 <ul>
-                   
+
                     <li>GitHub<a href="//github.com/mctiantian2501314/" class="source-link source-ysqfby" target="_blank"> @mctiantian2501314</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                   <h4>友情链接</h4>
+                <h4>友情链接</h4>
                 <ul>
-                    
+
                     <li><a href="https://ged520-github-io.pages.dev/" target="_blank">辞之次元</a></li>
                     <li><a href="https://jijianconvert.netlify.app/yuedutool" target="_blank">开源阅读/源阅发现转换工具</a></li>
                     <li><a href="http://2280.eu.org:5080/" target="_blank">在线工具箱</a></li>
                     <li><a href="http://2280.eu.org:8333/" target="_blank">发现规则</a></li>
                     <li><a href="https://taoba.cf/" target="_blank">源社区</a></li>
-                    
-                    <li><a href="https://youfeng.pages.dev/" target="_blank">怣疯的个人主页</a></li>
-                   <li><a href="http://fb.shushan.vip:9999/" target="_blank">书山专享发布页
-</a></li>
-<li><a href="https://sbtool.us.kg/" target="_blank">🍟的工具箱</a></li>
-<li><a href="https://gitee.com/lff283/syrj/" target="_blank">活力宝日记</a></li>
-<li><a href="https://yckceo.vip/" target="_blank">木木源仓库</a></li>
-<li><a href="https://skybook.pages.dev/" target="_blank">明月书阁</a></li>
-<li><a href="https://www.yesui.me/" target="_blank">情无羁的空间</a></li>
 
-                
+                    <li><a href="https://youfeng.pages.dev/" target="_blank">怣疯的个人主页</a></li>
+                    <li><a href="http://fb.shushan.vip:9999/" target="_blank">书山专享发布页
+                        </a></li>
+                    <li><a href="https://sbtool.us.kg/" target="_blank">🍟的工具箱</a></li>
+                    <li><a href="https://gitee.com/lff283/syrj/" target="_blank">活力宝日记</a></li>
+                    <li><a href="https://yckceo.vip/" target="_blank">木木源仓库</a></li>
+                    <li><a href="https://skybook.pages.dev/" target="_blank">明月书阁</a></li>
+                    <li><a href="https://www.yesui.me/" target="_blank">情无羁的空间</a></li>
+
+
                 </ul>
                 </ul>
             </div>
-        </div>      
+        </div>
 
-      
 
-      <div id="new-footer"></div>
-                 
-       <div id="timestamp-container"></div>
+
+        <div id="new-footer"></div>
+
+        <div id="timestamp-container"></div>
 
     </footer>
 
-    
+
 
 
     <script src="./libs/jquery/jquery-3.7.1.js"></script>
@@ -153,7 +144,7 @@
             const settings = {
                 async: true,
                 crossDomain: true,
-                url: 'https://api.ttxz.eu.org/proxy',  // 发送到 FastAPI 服务器的代理路由
+                url: 'https://api.ttxz.eu.org/proxy', // 发送到 FastAPI 服务器的代理路由
                 method: 'GET'
             };
 
@@ -194,14 +185,13 @@
         });
     </script>
 
-     <script>
-        
+    <script>
         function fetchTimestamp() {
             const xhr = new XMLHttpRequest();
             xhr.open("GET", "timestamp/sy_timestamp.json", true);
-            xhr.onreadystatechange = function () {
+            xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                   
+
                     const data = JSON.parse(xhr.responseText);
                     document.getElementById("timestamp-container").innerText = data.timestamp;
                 }
@@ -209,53 +199,62 @@
             xhr.send();
         }
 
-      
+
         window.onload = fetchTimestamp;
     </script>
-     
-        
-<!--  cdnjs CDN -->
-<script src="./libs/marked/marked.min.js"></script>
-<script src="./libs/dompurify/purify.min.js"></script>
-<script src="./libs/highlight.js/highlight.min.js"></script>
-<script src="./libs/mathjax/es5/tex-mml-chtml.js"></script>
+
+
+    <!--  cdnjs CDN -->
+    <script src="./libs/marked/marked.min.js"></script>
+    <script src="./libs/dompurify/purify.min.js"></script>
+    <script src="./libs/highlight.js/highlight.min.js"></script>
+    <script src="./libs/mathjax/es5/tex-mml-chtml.js"></script>
     <script src="blog.js"></script>
     <script src="s.js"></script>
     <link rel="stylesheet" href="./QPlayer/QPlayer.css">
     <script src="./QPlayer/dist/QPlayer.js"></script>
-    <script src="./QPlayer/script.js"></script>
-    
+    <script src="./libs/darkreader/darkreader.min.js"></script>
+
     <script id="js-code">
-fetch('/QPlayer/QPlayer.json')
-  .then(response => response.json()) // 将响应解析为 JSON
-  .then(data => {
-    window.QPlayer.list = data; // 将读取到的数据赋值给 window.QPlayer.list
-    console.log(window.QPlayer.list); // 打印数据
-  })
-  .catch(error => {
-    console.error('读取文件失败：', error);
-  });
+        fetch('/QPlayer/QPlayer.json')
+            .then(response => response.json()) // 将响应解析为 JSON
+            .then(data => {
+                window.QPlayer.list = data; // 将读取到的数据赋值给 window.QPlayer.list
+                console.log(window.QPlayer.list); // 打印数据
+            })
+            .catch(error => {
+                console.error('读取文件失败：', error);
+            });
+    </script>
 
-</script>
-
-<style>
+    <style>
         /* 打赏按钮样式 */
         #donateButton {
             display: inline-block;
-            width: 64px; /* 按钮宽度 */
-            height: 64px; /* 按钮高度 */
-            line-height: 20px; /* 使文字垂直居中 */
-            background-color: orange; /* 橙色背景 */
+            width: 64px;
+            /* 按钮宽度 */
+            height: 64px;
+            /* 按钮高度 */
+            line-height: 20px;
+            /* 使文字垂直居中 */
+            background-color: orange;
+            /* 橙色背景 */
             border: none;
-            border-radius: 50%; /* 圆形按钮 */
-            font-size: 48px; /* 字体放大 */
+            border-radius: 50%;
+            /* 圆形按钮 */
+            font-size: 48px;
+            /* 字体放大 */
             font-weight: bold;
-            color: gold; /* 金色字体 */
+            color: gold;
+            /* 金色字体 */
             cursor: pointer;
             outline: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
-            text-align: center; /* 文字水平居中 */
-            margin: 20px auto; /* 按钮水平居中 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            /* 添加阴影效果 */
+            text-align: center;
+            /* 文字水平居中 */
+            margin: 20px auto;
+            /* 按钮水平居中 */
         }
 
         /* 弹窗样式 */
@@ -299,29 +298,31 @@ fetch('/QPlayer/QPlayer.json')
             margin: 20px 0;
         }
     </style>
-    
-<script>
-    // 获取打赏按钮和弹窗元素
-    var donateButton = document.getElementById("donateButton");
-    var donateModal = document.getElementById("donateModal");
-    var closeButton = document.querySelector(".close");
 
-    // 点击打赏按钮时弹出弹窗
-    donateButton.onclick = function() {
-        donateModal.style.display = "block";
-    }
+    <script>
+        // 获取打赏按钮和弹窗元素
+        var donateButton = document.getElementById("donateButton");
+        var donateModal = document.getElementById("donateModal");
+        var closeButton = document.querySelector(".close");
 
-    // 点击关闭按钮时关闭弹窗
-    closeButton.onclick = function() {
-        donateModal.style.display = "none";
-    }
+        // 点击打赏按钮时弹出弹窗
+        donateButton.onclick = function() {
+            donateModal.style.display = "block";
+        }
 
-    // 点击弹窗外的区域时关闭弹窗
-    window.onclick = function(event) {
-        if (event.target == donateModal) {
+        // 点击关闭按钮时关闭弹窗
+        closeButton.onclick = function() {
             donateModal.style.display = "none";
         }
-    }
-</script>
+
+        // 点击弹窗外的区域时关闭弹窗
+        window.onclick = function(event) {
+            if (event.target == donateModal) {
+                donateModal.style.display = "none";
+            }
+        }
+    </script>
+
 </body>
+
 </html>

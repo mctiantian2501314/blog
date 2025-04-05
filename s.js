@@ -2,29 +2,32 @@ class SearchFloatPlugin {
     constructor(blogInstance) {
         this.blog = blogInstance;
         this.isOpen = false;
-        this.currentKeyword = ''; // 初始化当前关键词
-        this.isButtonVisible = true; // 控制搜索悬浮按钮是否可见的状态
+        this.currentKeyword = '';
+        this.isButtonVisible = true;
+        this.isThemeMenuVisible = true; // 新增状态变量，用于控制主题菜单按钮的显示状态
         this.init();
     }
 
     init() {
         this.createUI();
         this.createVisibilityToggle();
+        this.createThemeMenu();
         this.patchMethods();
         this.addStyles();
         this.setupEventListeners();
+        this.initThemeMenu();
     }
 
     createUI() {
-        // 悬浮按钮
+        // 搜索按钮
         this.floatBtn = document.createElement('div');
-        this.floatBtn.className ='search-float-btn';
+        this.floatBtn.className = 'search-float-btn';
         this.floatBtn.innerHTML = '🔍';
-        this.floatBtn.style.zIndex = '9998'; // 确保按钮在常规内容之上
+        this.floatBtn.style.zIndex = '9998';
 
-        // 搜索悬浮窗
+        // 搜索窗口
         this.popup = document.createElement('div');
-        this.popup.className ='search-float-window';
+        this.popup.className = 'search-float-window';
         this.popup.innerHTML = `
             <div class="search-header">
                 <input type="text" class="search-input" 
@@ -34,48 +37,98 @@ class SearchFloatPlugin {
             </div>
             <div class="search-results-container"></div>
         `;
-        this.popup.style.zIndex = '9999'; // 窗口在按钮之上
+        this.popup.style.zIndex = '9999';
 
         document.body.appendChild(this.floatBtn);
         document.body.appendChild(this.popup);
     }
 
     createVisibilityToggle() {
-        // 创建显示/隐藏开关
+        // 显示/隐藏开关
         this.toggleBtn = document.createElement('div');
-        this.toggleBtn.className ='search-visibility-toggle';
-        this.toggleBtn.innerHTML = '▶'; // 初始显示为▶
-        this.toggleBtn.style.zIndex = '9997'; // 确保在其他内容之上但在搜索按钮之下
-        this.toggleBtn.style.position = 'fixed';
-        this.toggleBtn.style.right = '30px';
-        this.toggleBtn.style.bottom = '30px';
-        this.toggleBtn.style.width = '40px';
-        this.toggleBtn.style.height = '40px';
-        this.toggleBtn.style.background = '#ffffff';
-        this.toggleBtn.style.borderRadius = '30%';
-        this.toggleBtn.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-        this.toggleBtn.style.cursor = 'pointer';
-        this.toggleBtn.style.display = 'flex';
-        this.toggleBtn.style.alignItems = 'center';
-        this.toggleBtn.style.justifyContent = 'center';
-        this.toggleBtn.style.fontSize = '20px';
-        this.toggleBtn.style.color = '#2c3e50';
-        this.toggleBtn.style.transition = 'all 0.3s ease';
-
+        this.toggleBtn.className = 'search-visibility-toggle';
+        this.toggleBtn.innerHTML = '▶';
+        this.toggleBtn.style.cssText = `
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            width: 40px;
+            height: 40px;
+            background: #ffffff;
+            border-radius: 30%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            z-index: 9997;
+        `;
         document.body.appendChild(this.toggleBtn);
     }
 
-    patchMethods() {
-        // 劫持原始渲染方法
-        const originalRenderPostList = this.blog.renderPostList.bind(this.blog);
+    createThemeMenu() {
+        // 主题切换菜单
+        this.themeMenu = document.createElement('select');
+        this.themeMenu.className = 'theme-menu';
+        this.themeMenu.innerHTML = `
+            <option value="auto">🌓 自动</option>
+            <option value="light">☀️ 明亮</option>
+            <option value="dark">🌙 暗黑</option>
+        `;
+        document.body.appendChild(this.themeMenu);
+    }
 
+    initThemeMenu() {
+        const savedTheme = localStorage.getItem('themePreference') || 'auto';
+        this.themeMenu.value = savedTheme;
+        this.applyTheme(savedTheme);
+
+        this.themeMenu.addEventListener('change', (e) => {
+            const mode = e.target.value;
+            localStorage.setItem('themePreference', mode);
+            this.applyTheme(mode);
+        });
+
+        if (savedTheme === 'auto') {
+            this.setupSystemListener();
+        }
+    }
+
+    applyTheme(mode) {
+        switch (mode) {
+            case 'auto':
+                DarkReader.auto();
+                this.setupSystemListener();
+                break;
+            case 'dark':
+                DarkReader.enable();
+                break;
+            case 'light':
+                DarkReader.disable();
+                break;
+        }
+    }
+
+    setupSystemListener() {
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const handler = (e) => {
+            e.matches ? DarkReader.enable() : DarkReader.disable();
+        };
+        systemTheme.removeEventListener('change', handler);
+        systemTheme.addEventListener('change', handler);
+    }
+
+    patchMethods() {
+        const originalRenderPostList = this.blog.renderPostList.bind(this.blog);
         this.blog.renderPostList = (posts) => {
             const filtered = this.applySearchFilter(posts);
             originalRenderPostList(filtered);
             this.updateResults(filtered);
         };
 
-        // 劫持路由返回逻辑
         const originalShowPostList = this.blog.showPostList.bind(this.blog);
         this.blog.showPostList = () => {
             this.closeSearch();
@@ -86,7 +139,6 @@ class SearchFloatPlugin {
     applySearchFilter(posts) {
         if (!this.currentKeyword) return posts;
         const keyword = this.currentKeyword.toLowerCase();
-
         return posts.filter(post =>
             post.title.toLowerCase().includes(keyword) ||
             (post.category?.toLowerCase().includes(keyword)) ||
@@ -98,21 +150,18 @@ class SearchFloatPlugin {
     setupEventListeners() {
         let timeout;
 
-        // 按钮点击交互
+        // 搜索按钮点击
         this.floatBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             this.toggleSearchWindow();
         });
 
-        // 输入防抖处理
+        // 输入搜索
         this.popup.querySelector('.search-input').addEventListener('input', (e) => {
             clearTimeout(timeout);
             timeout = setTimeout(() => {
                 this.currentKeyword = e.target.value.trim();
-                this.blog.state.currentFilter = {
-                    type:'search',
-                    value: this.currentKeyword
-                };
+                this.blog.state.currentFilter = { type: 'search', value: this.currentKeyword };
                 this.blog.renderView();
             }, 300);
         });
@@ -125,9 +174,7 @@ class SearchFloatPlugin {
 
         // 全局点击关闭
         document.addEventListener('click', (e) => {
-            if (!this.popup.contains(e.target) &&
-                !this.floatBtn.contains(e.target) &&
-                this.isOpen) {
+            if (!this.popup.contains(e.target) && !this.floatBtn.contains(e.target) && this.isOpen) {
                 this.closeSearch();
             }
         });
@@ -139,19 +186,16 @@ class SearchFloatPlugin {
             }
         });
 
-        // 点击搜索结果跳转
+        // 结果点击
         this.popup.querySelector('.search-results-container').addEventListener('click', (e) => {
             const resultItem = e.target.closest('.result-item');
             if (resultItem) {
-                const path = resultItem.dataset.path;
-                // 使用 fetch 发起 GET 请求
-                const url = `?path=${path}`;
-                window.location.href = url;
+                window.location.href = `?path=${resultItem.dataset.path}`;
                 this.closeSearch();
             }
         });
 
-        // 显示/隐藏开关点击事件
+        // 显示/隐藏开关
         this.toggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             this.toggleButtonVisibility();
@@ -160,8 +204,8 @@ class SearchFloatPlugin {
 
     updateResults(posts) {
         const container = this.popup.querySelector('.search-results-container');
-        container.innerHTML = posts.length?
-            this.createResultsList(posts) :
+        container.innerHTML = posts.length ? 
+            this.createResultsList(posts) : 
             '<div class="empty-state">未找到匹配结果</div>';
     }
 
@@ -170,10 +214,10 @@ class SearchFloatPlugin {
             <div class="result-count">找到 ${posts.length} 个结果</div>
             <div class="result-list">
                 ${posts.map(post => `
-                    <div class="result-item" data-path="${post.path}" style="border: 1px solid #e0e0e0;">
+                    <div class="result-item" data-path="${post.path}">
                         <h4>${post.title}</h4>
-                        ${post.category? `<div class="result-category">${post.category}</div>` : ''}
-                        ${post.tags?.length? `
+                        ${post.category ? `<div class="result-category">${post.category}</div>` : ''}
+                        ${post.tags?.length ? `
                         <div class="result-tags">
                             ${post.tags.map(t => `<span class="tag">${t}</span>`).join('')}
                         </div>` : ''}
@@ -184,8 +228,8 @@ class SearchFloatPlugin {
     }
 
     toggleSearchWindow() {
-        this.isOpen =!this.isOpen;
-        this.popup.style.display = this.isOpen? 'block' : 'none';
+        this.isOpen = !this.isOpen;
+        this.popup.style.display = this.isOpen ? 'block' : 'none';
         this.floatBtn.classList.toggle('active', this.isOpen);
 
         if (this.isOpen) {
@@ -194,33 +238,27 @@ class SearchFloatPlugin {
         }
     }
 
-toggleButtonVisibility() {
-    this.isButtonVisible = !this.isButtonVisible;
-    if (this.isButtonVisible) {
-        this.floatBtn.style.display = 'flex'; // 恢复为CSS定义的flex布局
-        this.toggleBtn.innerHTML = '▶';
-        this.toggleBtn.style.backgroundColor = '#ffffff';
-        this.toggleBtn.style.color = '#2c3e50';
-    } else {
-        this.floatBtn.style.display = 'none';
-        this.toggleBtn.innerHTML = '◀';
-        this.toggleBtn.style.backgroundColor = '#e0e0e0';
-        this.toggleBtn.style.color = '#95a5a6';
+    toggleButtonVisibility() {
+        this.isButtonVisible = !this.isButtonVisible;
+        this.floatBtn.style.display = this.isButtonVisible ? 'flex' : 'none';
+        this.toggleThemeMenuVisibility(); // 调用新方法同步主题菜单按钮的显示状态
     }
-}
+
+    toggleThemeMenuVisibility() {
+        this.isThemeMenuVisible = !this.isThemeMenuVisible; // 切换主题菜单按钮的显示状态
+        this.themeMenu.style.display = this.isThemeMenuVisible ? 'block' : 'none';
+        this.toggleBtn.innerHTML = this.isButtonVisible && this.isThemeMenuVisible ? '▶' : '◀';
+    }
+
     positionPopup() {
         const btnRect = this.floatBtn.getBoundingClientRect();
         const popupWidth = 360;
         const viewportPadding = 20;
 
-        // 计算最佳显示位置
         let left = btnRect.right - popupWidth;
         let top = btnRect.bottom + 15;
 
-        // 边界检测
-        if (left < viewportPadding) {
-            left = viewportPadding;
-        }
+        if (left < viewportPadding) left = viewportPadding;
         if (window.innerWidth - (left + popupWidth) < viewportPadding) {
             left = window.innerWidth - popupWidth - viewportPadding;
         }
@@ -232,7 +270,7 @@ toggleButtonVisibility() {
         this.popup.style.top = `${top}px`;
     }
 
-    closeSearch() {
+        closeSearch() {
         this.isOpen = false;
         this.popup.style.display = 'none';
         this.floatBtn.classList.remove('active');
@@ -245,8 +283,8 @@ toggleButtonVisibility() {
     addStyles() {
         const style = document.createElement('style');
         style.textContent = `
-            /* 悬浮按钮样式 */
-           .search-float-btn {
+            /* 搜索按钮样式 */
+            .search-float-btn {
                 position: fixed;
                 right: 30px;
                 top: 30px;
@@ -265,17 +303,13 @@ toggleButtonVisibility() {
                 z-index: 9998;
             }
 
-           .search-float-btn:hover {
+            .search-float-btn:hover {
                 transform: scale(1.1);
                 box-shadow: 0 6px 16px rgba(0,0,0,0.2);
             }
 
-           .search-float-btn.active {
-                background: #f8f9fa;
-            }
-
             /* 搜索窗口样式 */
-           .search-float-window {
+            .search-float-window {
                 display: none;
                 position: fixed;
                 width: 360px;
@@ -293,12 +327,43 @@ toggleButtonVisibility() {
                 to { opacity: 1; transform: translateY(0); }
             }
 
-           .search-header {
-                position: relative;
-                margin-bottom: 12px;
+            /* 主题菜单样式 */
+            .theme-menu {
+                position: fixed;
+                right: 30px;
+                bottom: 80px;
+                padding: 8px 12px;
+                border-radius: 6px;
+                border: 1px solid #ddd;
+                background: var(--bg-color, #ffffff);
+                color: var(--text-color, #333);
+                z-index: 9996;
+                cursor: pointer;
+                transition: all 0.3s ease;
             }
 
-           .search-input {
+            .theme-menu:hover {
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                transform: translateY(-2px);
+            }
+
+            .theme-menu option {
+                background: var(--bg-color, #ffffff);
+                color: var(--text-color, #333);
+            }
+
+            /* 暗色模式适配 */
+            @media (prefers-color-scheme: dark) {
+                .theme-menu {
+                    --bg-color: #2c2c2c;
+                    --text-color: #f0f0f0;
+                    border-color: #404040;
+                }
+            }
+
+            /* 其他原有样式... */
+            .search-header { position: relative; margin-bottom: 12px; }
+            .search-input {
                 width: 100%;
                 padding: 12px 16px;
                 border: 2px solid #e0e0e0;
@@ -306,13 +371,8 @@ toggleButtonVisibility() {
                 font-size: 16px;
                 transition: border-color 0.3s;
             }
-
-           .search-input:focus {
-                outline: none;
-                border-color: #3498db;
-            }
-
-           .close-btn {
+            .search-input:focus { outline: none; border-color: #3498db; }
+            .close-btn {
                 position: absolute;
                 right: 12px;
                 top: 50%;
@@ -322,98 +382,36 @@ toggleButtonVisibility() {
                 color: #95a5a6;
                 padding: 0 8px;
             }
-
-           .close-btn:hover {
-                color: #e74c3c;
-            }
-
-            /* 搜索结果样式 */
-           .search-results-container {
-                max-height: 50vh;
-                overflow-y: auto;
-                padding-right: 8px;
-            }
-
-           .result-count {
-                color: #7f8c8d;
-                font-size: 14px;
-                margin-bottom: 12px;
-            }
-
-           .result-item {
+            .close-btn:hover { color: #e74c3c; }
+            .search-results-container { max-height: 50vh; overflow-y: auto; }
+            .result-count { color: #7f8c8d; font-size: 14px; margin-bottom: 12px; }
+            .result-item {
                 padding: 12px;
                 border-radius: 8px;
                 margin-bottom: 8px;
                 transition: background 0.2s;
                 cursor: pointer;
-                border: 1px solid #e0e0e0; /* 这里再添加一遍样式确保生效 */
+                border: 1px solid #e0e0e0;
             }
-
-           .result-item:hover {
-                background: #f8f9fa;
-            }
-
-           .result-item h4 {
-                margin: 0 0 6px 0;
-                color: #2c3e50;
-                font-size: 16px;
-            }
-
-           .result-category {
-                font-size: 12px;
-                color: #3498db;
-                margin-bottom: 4px;
-            }
-
-           .result-tags {
-                display: flex;
-                gap: 4px;
-                flex-wrap: wrap;
-            }
-
-           .result-tags.tag {
-                background: #ecf0f1;
-                padding: 4px 8px;
-                border-radius: 4px;
-                font-size: 12px;
-            }
-
-           .empty-state {
-                text-align: center;
-                color: #95a5a6;
-                padding: 24px;
-            }
+            .result-item:hover { background: #f8f9fa; }
+            .result-item h4 { margin: 0 0 6px 0; color: #2c3e50; font-size: 16px; }
+            .result-category { font-size: 12px; color: #3498db; margin-bottom: 4px; }
+            .result-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+            .result-tags.tag { background: #ecf0f1; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+            .empty-state { text-align: center; color: #95a5a6; padding: 24px; }
 
             /* 移动端适配 */
             @media (max-width: 768px) {
-               .search-float-btn {
-                    right: 16px;
-                    top: 16px;
-                    width: 44px;
-                    height: 44px;
-                    font-size: 20px;
-                }
-
-               .search-float-window {
-                    width: calc(100% - 32px);
-                    left: 16px!important;
-                    right: 16px!important;
-                    max-width: none;
-                }
-            }
-
-            /* 显示/隐藏开关样式 */
-           .search-visibility-toggle {
-                position: fixed;
-                right: 20px;
-                bottom: 20px;
+                .search-float-btn { right: 16px; top: 16px; width: 44px; height: 44px; }
+                .search-float-window { width: calc(100% - 32px); left: 16px!important; }
+                .theme-menu { right: 16px; bottom: 70px; }
             }
         `;
         document.head.appendChild(style);
     }
 }
 
-// 初始化，这里假设 StaticBlog 是已经定义好的类
+// 初始化代码
 document.addEventListener('DOMContentLoaded', () => {
     const blog = new StaticBlog();
     new SearchFloatPlugin(blog);
