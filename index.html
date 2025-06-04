@@ -324,16 +324,9 @@
 
 
 
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        
-        
         
         .ad-modal {
             display: flex;
@@ -535,12 +528,6 @@
             width: 100%;
             background: linear-gradient(to right, #2ecc71, #3498db);
             border-radius: 3px;
-            animation: countdown 10s linear forwards;
-        }
-        
-        @keyframes countdown {
-            from { width: 100%; }
-            to { width: 0%; }
         }
         
         .countdown-text {
@@ -646,6 +633,8 @@
             }
         }
     </style>
+
+
     
     <!-- 流量卡广告弹窗 -->
     <div id="advertised-modal" class="ad-modal">
@@ -657,7 +646,7 @@
                 <span class="close-button">&times;</span>
             </div>
             <div class="modal-body">
-                <!-- 新增广告图片 -->
+                <!-- 广告图片 -->
                 <div class="ad-image">
                     <img src="https://s2.loli.net/2025/06/04/XsehWozJNU6kZVA.jpg" alt="流量卡广告">
                 </div>
@@ -689,9 +678,9 @@
                 </div>
                 
                 <div class="countdown-bar">
-                    <div class="countdown-progress"></div>
+                    <div class="countdown-progress" id="countdownProgress"></div>
                 </div>
-                <div class="countdown-text">10秒钟后自动关闭</div>
+                <div class="countdown-text" id="countdownText">10秒钟后自动关闭</div>
             </div>
         </div>
     </div>
@@ -699,72 +688,56 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // 获取元素
-            var adModal = document.getElementById("advertised-modal");
-            var closeButton = document.querySelector(".close-button");
-            var countdownProgress = document.querySelector(".countdown-progress");
-            var countdownText = document.querySelector(".countdown-text");
-            var countdownTimer;
-            var timeLeft = 10; // 倒计时时间（秒）
-            
-            // 显示广告弹窗
-            function showAd() {
-                adModal.style.display = "flex";
-                startAutoClose();
-            }
-            
-            // 开始10秒自动关闭
-            function startAutoClose() {
-                // 重置倒计时时间
-                timeLeft = 10;
-                updateCountdownText();
-                
-                // 重置进度条动画
-                countdownProgress.style.animation = 'none';
-                setTimeout(() => {
-                    countdownProgress.style.animation = 'countdown 10s linear forwards';
-                }, 10);
-                
-                // 清除之前的计时器
-                if (countdownTimer) clearInterval(countdownTimer);
-                
-                // 每秒更新倒计时文本
-                countdownTimer = setInterval(function() {
-                    timeLeft--;
-                    updateCountdownText();
-                    
-                    if (timeLeft <= 0) {
-                        closeAd();
-                    }
-                }, 1000);
-            }
-            
-            // 更新倒计时文本
-            function updateCountdownText() {
-                countdownText.textContent = `${timeLeft}秒钟后自动关闭`;
-            }
+            const adModal = document.getElementById("advertised-modal");
+            const closeButton = document.querySelector(".close-button");
+            const countdownProgress = document.getElementById("countdownProgress");
+            const countdownText = document.getElementById("countdownText");
             
             // 关闭广告弹窗
             function closeAd() {
                 adModal.style.display = "none";
-                // 清除计时器
-                if (countdownTimer) clearInterval(countdownTimer);
+                clearInterval(timer);
             }
             
-            // 点击关闭按钮时关闭弹窗
+            // 关闭按钮点击事件
             closeButton.addEventListener('click', closeAd);
             
-            // 点击弹窗外的区域时关闭弹窗
+            // 背景点击关闭事件
             adModal.addEventListener('click', function(event) {
                 if (event.target === adModal) {
                     closeAd();
                 }
             });
             
-            // 页面加载时显示广告（每次刷新都显示）
+            // 显示广告弹窗
+            function showAd() {
+                adModal.style.display = "flex";
+                startCountdown();
+            }
+            
+            // 倒计时功能
+            let timer;
+            function startCountdown() {
+                let seconds = 10;
+                countdownText.textContent = `${seconds}秒钟后自动关闭`;
+                countdownProgress.style.width = "100%";
+                
+                timer = setInterval(() => {
+                    seconds--;
+                    countdownText.textContent = `${seconds}秒钟后自动关闭`;
+                    countdownProgress.style.width = `${seconds * 10}%`;
+                    
+                    if (seconds <= 0) {
+                        clearInterval(timer);
+                        closeAd();
+                    }
+                }, 1000);
+            }
+            
+            // 页面加载后显示广告
             setTimeout(showAd, 1500);
         });
     </script>
-
 
 </body>
 
