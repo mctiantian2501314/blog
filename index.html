@@ -269,7 +269,7 @@
             background-color: rgba(0, 0, 0, 0.4);
         }
 
-        .modal-content {
+        .modal-content-ad {
             background-color: #fefefe;
             margin: 15% auto;
             padding: 20px;
@@ -323,138 +323,154 @@
     </script>
 
 
-
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        
-        .ad-modal {
+  
+      
+        #advertised-modal {
             display: flex;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.85);
             z-index: 10000;
             align-items: center;
             justify-content: center;
             padding: 15px;
-            animation: fadeIn 0.5s ease;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        #advertised-modal.show {
+            opacity: 1;
+            visibility: visible;
         }
         
-        .modal-content {
-            background: linear-gradient(135deg, #ffffff, #f9f9f9);
-            border-radius: 20px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+        .ad-modal-container {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 85%;
+            max-width: 380px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
             overflow: hidden;
             position: relative;
-            animation: modalAppear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 3px solid #e74c3c;
+            transform: scale(0.95) translateY(20px);
+            animation: adSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
         
-        @keyframes modalAppear {
-            from { opacity: 0; transform: scale(0.85) translateY(40px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+        @keyframes adSlideIn {
+            to { 
+                transform: scale(1) translateY(0); 
+                opacity: 1;
+            }
         }
+        
+     .modal-ribbon {
+    position: absolute;
+    top: 30px; /* 修改为下移一点 */
+    right: -10px;
+    background: var(--accent-color);
+    color: white;
+    padding: 4px 32px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    transform: rotate(45deg);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
         
         .modal-header {
-            background: linear-gradient(to right, #e74c3c, #c0392b);
+            background: var(--accent-color);
             color: white;
-            padding: 20px 15px;
+            padding: 15px 10px 12px;
             text-align: center;
             position: relative;
         }
         
         .modal-header h2 {
-            font-size: 1.6rem;
-            margin-bottom: 8px;
+            font-size: 1.15rem;
+            margin: 5px 0 3px;
+            font-weight: 600;
+            padding: 0 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 0 10px;
         }
         
         .modal-header p {
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 0 10px;
+            font-size: 0.8rem;
+            opacity: 0.9;
+            margin-bottom: 0;
         }
         
         .modal-body {
-            padding: 20px 15px;
-            text-align: center;
+            padding: 15px;
         }
         
         .modal-body p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #555;
-            margin-bottom: 12px;
-            text-align: left;
-            padding-left: 5px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            padding: 5px 8px;
+            position: relative;
             display: flex;
             align-items: flex-start;
-            gap: 8px;
+        }
+        
+        .p-icon {
+            min-width: 18px;
+            font-size: 0.9em;
+            color: var(--accent-color);
+            margin-right: 8px;
+            margin-top: 2px;
         }
         
         .ad-image {
             width: 100%;
-            margin: 15px 0;
-            border-radius: 12px;
+            margin: 10px 0 8px;
+            border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
         }
         
         .ad-image img {
             width: 100%;
             height: auto;
             display: block;
-            object-fit: cover;
         }
         
         .links-container {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: left;
+            padding: 8px 0;
+            margin: 8px 0;
         }
         
         .link-item {
-            margin-bottom: 12px;
-            padding: 12px;
-            background: white;
-            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 9px 12px;
+            background: #f8fafc;
+            border-radius: var(--border-radius);
             display: flex;
             align-items: center;
+            border: 1px solid #e2e8f0;
             transition: all 0.3s ease;
-            border-left: 4px solid #3498db;
         }
         
         .link-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-left: 4px solid #e74c3c;
+            background-color: rgba(231, 76, 60, 0.05);
+            border-color: var(--accent-color);
         }
         
         .link-icon {
-            font-size: 1.3rem;
-            color: #e74c3c;
+            font-size: 1rem;
+            color: var(--accent-color);
             margin-right: 12px;
-            min-width: 25px;
-            text-align: center;
         }
         
         .link-text {
@@ -463,268 +479,246 @@
         }
         
         .link-text a {
-            color: #3498db;
+            color: var(--primary-color);
             text-decoration: none;
-            font-weight: bold;
-            font-size: 0.95rem;
+            font-weight: 600;
+            font-size: 0.83rem;
             word-break: break-all;
             display: block;
         }
         
         .link-text a:hover {
+            color: var(--accent-color);
             text-decoration: underline;
-            color: #e74c3c;
         }
         
-        .tags {
+        .tags-ad {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             justify-content: center;
-            margin-top: 15px;
+            margin: 15px 0 10px;
         }
         
-        .tag {
-            background: #e74c3c;
+        .tag-ad {
+            background: var(--accent-color);
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
         }
         
         .close-button {
-            position: absolute;
-            top: 12px;
-            right: 15px;
-            font-size: 1.8rem;
-            color: white;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            background: rgba(0,0,0,0.2);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1;
-        }
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.4rem;
+    color: white;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5); /* 添加黑色半透明背景 */
+    opacity: 0.9;
+    transition: all 0.3s ease;
+    z-index: 15;
+}
+
+.close-button:hover {
+    background: rgba(0, 0, 0, 0.8); /* 鼠标悬停时加深背景颜色 */
+    opacity: 1;
+    transform: rotate(90deg);
+}
         
-        .close-button:hover {
-            transform: rotate(90deg) scale(1.1);
-            background: rgba(0,0,0,0.4);
+        .countdown-container {
+            padding: 0 5px;
+            margin-top: 12px;
         }
         
         .countdown-bar {
             height: 6px;
-            background: #ecf0f1;
+            background: #edf2f7;
             border-radius: 3px;
-            margin-top: 20px;
             overflow: hidden;
         }
         
         .countdown-progress {
             height: 100%;
             width: 100%;
-            background: linear-gradient(to right, #2ecc71, #3498db);
+            background: var(--primary-color);
             border-radius: 3px;
+            transition: width 0.3s ease;
         }
         
         .countdown-text {
-            font-size: 0.9rem;
-            color: #7f8c8d;
-            margin-top: 10px;
-            text-align: center;
-        }
-        
-        .ad-badge {
-            position: absolute;
-            top: 50px;
-            right: -10px;
-            background: #e74c3c;
-            color: white;
-            font-weight: bold;
-            padding: 4px 12px;
-            border-radius: 20px;
             font-size: 0.8rem;
-            transform: rotate(5deg);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            z-index: 10;
-        }
-        
-        .mobile-indicator {
-            display: none;
+            color: #718096;
+            margin-top: 8px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 10px;
-            border-radius: 10px;
+        }
+        
+        .close-instruction {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #777;
             margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed #e2e8f0;
+        }
+        
+@media (max-width: 768px) {
+    .modal-ribbon {
+        top: 20px; /* 保持下移一点 */
+        right: -20px;
+        font-size: 0.7rem;
+        padding: 3px 10px;
+    }
+
+    .close-button {
+        top: 4px;
+        right: 4px;
+        width: 20px;
+        height: 20px;
+        background: rgba(0, 0, 0, 0.5); /* 移动端也添加黑色半透明背景 */
+    }
+
+    .close-button:hover {
+        background: rgba(0, 0, 0, 0.8); /* 鼠标悬停时加深背景颜色 */
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-ribbon {
+        top: 20px; /* 在更小屏幕上进一步下移 */
+        right: -20px;
+        font-size: 0.7rem;
+        padding: 3px 26px;
+    }
+
+    .close-button {
+        top: 4px;
+        right: 4px;
+        font-size: 0.95rem;
+        width: 20px;
+        height: 20px;
+        background: rgba(0, 0, 0, 0.5); /* 移动端也添加黑色半透明背景 */
+    }
+
+    .close-button:hover {
+        background: rgba(0, 0, 0, 0.8); /* 鼠标悬停时加深背景颜色 */
+    }
+}
+        
+        .demo-button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 25px;
+            background: var(--accent-color);
             color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
         }
         
-        /* 移动端优化 */
-        @media (max-width: 768px) {
-            .modal-header h2 {
-                font-size: 1.4rem;
-            }
-            
-            .modal-header p {
-                font-size: 1rem;
-            }
-            
-            .modal-body p {
-                font-size: 0.95rem;
-            }
-            
-            .link-item {
-                padding: 10px;
-            }
-            
-            .link-text a {
-                font-size: 0.9rem;
-            }
-            
-            .mobile-indicator {
-                display: block;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .modal-content {
-                border-radius: 18px;
-            }
-            
-            .modal-header {
-                padding: 18px 12px;
-            }
-            
-            .modal-header h2 {
-                font-size: 1.3rem;
-            }
-            
-            .modal-header p {
-                font-size: 0.95rem;
-            }
-            
-            .modal-body {
-                padding: 15px 12px;
-            }
-            
-            .modal-body p {
-                font-size: 0.9rem;
-                margin-bottom: 10px;
-            }
-            
-            .links-container {
-                padding: 12px;
-            }
-            
-            .link-icon {
-                font-size: 1.1rem;
-                margin-right: 10px;
-            }
-            
-            .close-button {
-                top: 10px;
-                right: 12px;
-                font-size: 1.6rem;
-                width: 32px;
-                height: 32px;
-            }
+        .demo-button:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
         }
     </style>
 
-
     
-    <!-- 流量卡广告弹窗 -->
-    <div id="advertised-modal" class="ad-modal">
-        <div class="modal-content">
-            <div class="ad-badge">限时优惠</div>
+    <!-- 广告弹窗 -->
+    <div id="advertised-modal">
+        <div class="ad-modal-container">
+            <div class="modal-ribbon">限时优惠</div>
             <div class="modal-header">
-                <h2><i class="fas fa-sim-card"></i> ☎️ 大额流量卡免费申领</h2>
-                <p><i class="fas fa-car"></i> 🚘 陌轩通讯 每日上新 🆕</p>
+                <h2><i class="fas fa-sim-card"></i> 大额流量卡免费领</h2>
+                <p>陌轩通讯 每日上新</p>
                 <span class="close-button">&times;</span>
             </div>
             <div class="modal-body">
-                <!-- 广告图片 -->
                 <div class="ad-image">
                     <img src="https://s2.loli.net/2025/06/04/XsehWozJNU6kZVA.jpg" alt="流量卡广告">
                 </div>
                 
                 <div class="links-container">
                     <div class="link-item">
-                        <div class="link-icon">➜</div>
+                        <div class="link-icon"><i class="fas fa-link"></i></div>
                         <div class="link-text">
                             <a href="https://sourl.cn/yrm8S6" target="_blank">https://sourl.cn/yrm8S6</a>
                         </div>
                     </div>
                     <div class="link-item">
-                        <div class="link-icon">➜</div>
+                        <div class="link-icon"><i class="fas fa-link"></i></div>
                         <div class="link-text">
                             <a href="https://sourl.cn/ADdLJZ" target="_blank">https://sourl.cn/ADdLJZ</a>
                         </div>
                     </div>
                 </div>
                 
-                <p><i class="fas fa-tag" style="color: #27ae60;"></i> 💰免费申领，邮费全免，非物联卡</p>
-                <p><i class="fas fa-check-circle" style="color: #e74c3c;"></i> 🔴缺流量卡可以冲，支持异地注销！</p>
-                <p><i class="fas fa-exclamation-triangle" style="color: #9b59b6;"></i> 🟣✋慢🈚️，若下架可购同类卡片</p>
-                <p><i class="fas fa-id-card" style="color: #e74c3c;"></i> 🔴全部官方卡，需真实信息办理</p>
+                <p><span class="p-icon"><i class="fas fa-tag"></i></span>免费申领，邮费全免，非物联卡</p>
+                <p><span class="p-icon"><i class="fas fa-check"></i></span>缺流量卡可选，支持异地注销</p>
+                <p><span class="p-icon"><i class="fas fa-clock"></i></span>优惠限量，售罄可选同类卡片</p>
+                <p><span class="p-icon"><i class="fas fa-id-card"></i></span>官方正品卡，需真实信息办理</p>
                 
-                <div class="tags">
-                    <div class="tag">#好卡推荐</div>
-                    <div class="tag">#电话卡</div>
-                    <div class="tag">#流量卡</div>
+                <div class="tags-ad">
+                    <div class="tag-ad">好卡推荐</div>
+                    <div class="tag-ad">电话卡</div>
+                    <div class="tag-ad">流量卡</div>
                 </div>
                 
-                <div class="countdown-bar">
-                    <div class="countdown-progress" id="countdownProgress"></div>
+                <div class="countdown-container">
+                    <div class="countdown-bar">
+                        <div class="countdown-progress" id="countdownProgress"></div>
+                    </div>
+                    <div class="countdown-text" id="countdownText">10秒后自动关闭</div>
                 </div>
-                <div class="countdown-text" id="countdownText">10秒钟后自动关闭</div>
+               
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 获取元素
+        // 广告弹窗功能
+        function setupAdModal() {
             const adModal = document.getElementById("advertised-modal");
             const closeButton = document.querySelector(".close-button");
             const countdownProgress = document.getElementById("countdownProgress");
             const countdownText = document.getElementById("countdownText");
+            let timer;
             
-            // 关闭广告弹窗
             function closeAd() {
-                adModal.style.display = "none";
+                adModal.classList.remove("show");
                 clearInterval(timer);
+                if(adModal.timeout) clearTimeout(adModal.timeout);
             }
             
-            // 关闭按钮点击事件
+            // 点击X关闭按钮
             closeButton.addEventListener('click', closeAd);
             
-            // 背景点击关闭事件
+            // 点击背景关闭
             adModal.addEventListener('click', function(event) {
-                if (event.target === adModal) {
-                    closeAd();
-                }
+                if (event.target === adModal) closeAd();
             });
             
-            // 显示广告弹窗
-            function showAd() {
-                adModal.style.display = "flex";
-                startCountdown();
-            }
+
             
-            // 倒计时功能
-            let timer;
             function startCountdown() {
                 let seconds = 10;
-                countdownText.textContent = `${seconds}秒钟后自动关闭`;
+                countdownText.textContent = `${seconds}秒后自动关闭`;
                 countdownProgress.style.width = "100%";
                 
                 timer = setInterval(() => {
                     seconds--;
-                    countdownText.textContent = `${seconds}秒钟后自动关闭`;
+                    countdownText.textContent = `${seconds}秒后自动关闭`;
                     countdownProgress.style.width = `${seconds * 10}%`;
                     
                     if (seconds <= 0) {
@@ -734,10 +728,21 @@
                 }, 1000);
             }
             
-            // 页面加载后显示广告
-            setTimeout(showAd, 1500);
-        });
+            // 初始显示广告
+            adModal.timeout = setTimeout(() => {
+                if (!adModal.classList.contains("show")) {
+                    adModal.style.display = "flex";
+                    setTimeout(() => {
+                        adModal.classList.add("show");
+                        startCountdown();
+                    }, 50);
+                }
+            }, 3000);
+        }
+        
+        document.addEventListener('DOMContentLoaded', setupAdModal);
     </script>
+
 
 </body>
 
