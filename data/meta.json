@@ -1,8 +1,8 @@
 {
-    "total": 23,
+    "total": 24,
     "page_size": 10,
     "page_count": 3,
-    "last_updated": "2025-05-25T12:14:48.706662",
+    "last_updated": "2025-06-04T02:05:11.732092",
     "data_files": [
         "page_1.json",
         "page_2.json",
@@ -15,7 +15,11 @@
         "阅读"
     ],
     "archives": [
-        "2025-05"
+        "2025-06"
     ],
-    "tags": []
+    "tags": [
+        "好卡推荐",
+        "流量卡",
+        "电话卡"
+    ]
 }
