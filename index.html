@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="github-markdown.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mgz0227/The-tutorial-of-Legado@main/index.css">
     <link rel="stylesheet" href="blog.css">
-    <script src="advertised.js"></script>
+    
 </head>
 
 <body>
@@ -320,6 +320,449 @@
                 donateModal.style.display = "none";
             }
         }
+    </script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        
+        
+        
+        .ad-modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #ffffff, #f9f9f9);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+            animation: modalAppear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid #e74c3c;
+        }
+        
+        @keyframes modalAppear {
+            from { opacity: 0; transform: scale(0.85) translateY(40px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        .modal-header {
+            background: linear-gradient(to right, #e74c3c, #c0392b);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 10px;
+        }
+        
+        .modal-header p {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 10px;
+        }
+        
+        .modal-body {
+            padding: 20px 15px;
+            text-align: center;
+        }
+        
+        .modal-body p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 12px;
+            text-align: left;
+            padding-left: 5px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .ad-image {
+            width: 100%;
+            margin: 15px 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .ad-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+        
+        .links-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        .link-item {
+            margin-bottom: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-left: 4px solid #3498db;
+        }
+        
+        .link-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .link-icon {
+            font-size: 1.3rem;
+            color: #e74c3c;
+            margin-right: 12px;
+            min-width: 25px;
+            text-align: center;
+        }
+        
+        .link-text {
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .link-text a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+            word-break: break-all;
+            display: block;
+        }
+        
+        .link-text a:hover {
+            text-decoration: underline;
+            color: #e74c3c;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .tag {
+            background: #e74c3c;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: rgba(0,0,0,0.2);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        
+        .close-button:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: rgba(0,0,0,0.4);
+        }
+        
+        .countdown-bar {
+            height: 6px;
+            background: #ecf0f1;
+            border-radius: 3px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .countdown-progress {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to right, #2ecc71, #3498db);
+            border-radius: 3px;
+            animation: countdown 10s linear forwards;
+        }
+        
+        @keyframes countdown {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+        
+        .countdown-text {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .ad-badge {
+            position: absolute;
+            top: 50px;
+            right: -10px;
+            background: #e74c3c;
+            color: white;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            transform: rotate(5deg);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        
+        .mobile-indicator {
+            display: none;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            color: white;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            .modal-header h2 {
+                font-size: 1.4rem;
+            }
+            
+            .modal-header p {
+                font-size: 1rem;
+            }
+            
+            .modal-body p {
+                font-size: 0.95rem;
+            }
+            
+            .link-item {
+                padding: 10px;
+            }
+            
+            .link-text a {
+                font-size: 0.9rem;
+            }
+            
+            .mobile-indicator {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .modal-content {
+                border-radius: 18px;
+            }
+            
+            .modal-header {
+                padding: 18px 12px;
+            }
+            
+            .modal-header h2 {
+                font-size: 1.3rem;
+            }
+            
+            .modal-header p {
+                font-size: 0.95rem;
+            }
+            
+            .modal-body {
+                padding: 15px 12px;
+            }
+            
+            .modal-body p {
+                font-size: 0.9rem;
+                margin-bottom: 10px;
+            }
+            
+            .links-container {
+                padding: 12px;
+            }
+            
+            .link-icon {
+                font-size: 1.1rem;
+                margin-right: 10px;
+            }
+            
+            .close-button {
+                top: 10px;
+                right: 12px;
+                font-size: 1.6rem;
+                width: 32px;
+                height: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 流量卡广告弹窗 -->
+    <div id="advertised-modal" class="ad-modal">
+        <div class="modal-content">
+            <div class="ad-badge">限时优惠</div>
+            <div class="modal-header">
+                <h2><i class="fas fa-sim-card"></i> ☎️ 大额流量卡免费申领</h2>
+                <p><i class="fas fa-car"></i> 🚘 陌轩通讯 每日上新 🆕</p>
+                <span class="close-button">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- 新增广告图片 -->
+                <div class="ad-image">
+                    <img src="https://s2.loli.net/2025/06/04/XsehWozJNU6kZVA.jpg" alt="流量卡广告">
+                </div>
+                
+                <div class="links-container">
+                    <div class="link-item">
+                        <div class="link-icon">➜</div>
+                        <div class="link-text">
+                            <a href="https://sourl.cn/yrm8S6" target="_blank">https://sourl.cn/yrm8S6</a>
+                        </div>
+                    </div>
+                    <div class="link-item">
+                        <div class="link-icon">➜</div>
+                        <div class="link-text">
+                            <a href="https://sourl.cn/ADdLJZ" target="_blank">https://sourl.cn/ADdLJZ</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <p><i class="fas fa-tag" style="color: #27ae60;"></i> 💰免费申领，邮费全免，非物联卡</p>
+                <p><i class="fas fa-check-circle" style="color: #e74c3c;"></i> 🔴缺流量卡可以冲，支持异地注销！</p>
+                <p><i class="fas fa-exclamation-triangle" style="color: #9b59b6;"></i> 🟣✋慢🈚️，若下架可购同类卡片</p>
+                <p><i class="fas fa-id-card" style="color: #e74c3c;"></i> 🔴全部官方卡，需真实信息办理</p>
+                
+                <div class="tags">
+                    <div class="tag">#好卡推荐</div>
+                    <div class="tag">#电话卡</div>
+                    <div class="tag">#流量卡</div>
+                </div>
+                
+                <div class="countdown-bar">
+                    <div class="countdown-progress"></div>
+                </div>
+                <div class="countdown-text">10秒钟后自动关闭</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取元素
+            var adModal = document.getElementById("advertised-modal");
+            var closeButton = document.querySelector(".close-button");
+            var countdownProgress = document.querySelector(".countdown-progress");
+            var countdownText = document.querySelector(".countdown-text");
+            var countdownTimer;
+            var timeLeft = 10; // 倒计时时间（秒）
+            
+            // 显示广告弹窗
+            function showAd() {
+                adModal.style.display = "flex";
+                startAutoClose();
+            }
+            
+            // 开始10秒自动关闭
+            function startAutoClose() {
+                // 重置倒计时时间
+                timeLeft = 10;
+                updateCountdownText();
+                
+                // 重置进度条动画
+                countdownProgress.style.animation = 'none';
+                setTimeout(() => {
+                    countdownProgress.style.animation = 'countdown 10s linear forwards';
+                }, 10);
+                
+                // 清除之前的计时器
+                if (countdownTimer) clearInterval(countdownTimer);
+                
+                // 每秒更新倒计时文本
+                countdownTimer = setInterval(function() {
+                    timeLeft--;
+                    updateCountdownText();
+                    
+                    if (timeLeft <= 0) {
+                        closeAd();
+                    }
+                }, 1000);
+            }
+            
+            // 更新倒计时文本
+            function updateCountdownText() {
+                countdownText.textContent = `${timeLeft}秒钟后自动关闭`;
+            }
+            
+            // 关闭广告弹窗
+            function closeAd() {
+                adModal.style.display = "none";
+                // 清除计时器
+                if (countdownTimer) clearInterval(countdownTimer);
+            }
+            
+            // 点击关闭按钮时关闭弹窗
+            closeButton.addEventListener('click', closeAd);
+            
+            // 点击弹窗外的区域时关闭弹窗
+            adModal.addEventListener('click', function(event) {
+                if (event.target === adModal) {
+                    closeAd();
+                }
+            });
+            
+            // 页面加载时显示广告（每次刷新都显示）
+            setTimeout(showAd, 1500);
+        });
     </script>
 
 </body>
