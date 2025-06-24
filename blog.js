@@ -1,4 +1,4 @@
-var blog_title = "天天的小站|玄蛋秘阁";
+var blog_title = "天天的小站 | 玄蛋秘阁 ";
 
 class StaticBlog {
     constructor() {
